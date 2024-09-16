@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { Icon } from 'astro-icon/components'
 ---
 
 <html lang='en'>
@@ -35,7 +36,9 @@ import '../styles/global.css';
 				<a href="https://docs.astro.build/en/getting-started/" target="_blank">
 					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
-							<div class='w-16 h-16 bg-gray-100 rounded-full'></div>
+							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
+								<Icon name={'general/book'} class={'text-purple-700 w-10 h-10'} />
+							</div>
 							<h1 class='text-4xl font-bold'>Documentation</h1>
 							<p class='text-lg leading-7 font-medium'>The documentation for Astro.js provides detailed guides and information to help you get started with building fast, modern websites.</p>
 						</div>
@@ -44,7 +47,9 @@ import '../styles/global.css';
 				<a href="https://astro.build/themes/" target="_blank">
 					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
-							<div class='w-16 h-16 bg-gray-100 rounded-full'></div>
+							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
+								<Icon name={'general/pallete'} class={'text-purple-700 w-10 h-10'} />
+							</div>
 							<h1 class='text-4xl font-bold'>Theme</h1>
 							<p class='text-lg leading-7 font-medium'>Jumpstart your next Astro project with theme to quickly create a consistent and customized appearance for your project without starting from scratch.</p>
 						</div>
@@ -53,7 +58,9 @@ import '../styles/global.css';
 				<a href="https://astro.build/blog/" target="_blank">
 					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
-							<div class='w-16 h-16 bg-gray-100 rounded-full'></div>
+							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
+								<Icon name={'general/blog'} class={'text-purple-700 w-10 h-10'} />
+							</div>
 							<h1 class='text-4xl font-bold'>Blog</h1>
 							<p class='text-lg leading-7 font-medium'>Get all the latest news from the Astroverse to stay up-to-date with the latest trends and technologies from Astro.</p>
 						</div>
@@ -61,7 +68,9 @@ import '../styles/global.css';
 				</a>
 				<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 rounded-xl'>
 					<div class='flex flex-col gap-y-6'>
-						<div class='w-16 h-16 bg-gray-100 rounded-full'></div>
+						<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
+							<Icon name={'general/dashboard'} class={'text-purple-700 w-10 h-10'} />
+						</div>
 						<h1 class='text-4xl font-bold'>Dashboard</h1>
 						<p class='text-lg leading-7 font-medium'>
 							Access your dashboard to manage and explore various features. To get started, first you need to <span class='underline underline-offset-2 hover:text-gray-300 duration-300 font-bold'><a href=''>register</a></span>
