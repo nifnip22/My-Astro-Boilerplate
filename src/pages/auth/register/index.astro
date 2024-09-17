@@ -2,8 +2,6 @@
 import Button from "../../../components/Button.astro";
 import Input from "../../../components/Input.astro";
 import AuthLayout from "../../../layouts/AuthLayout.astro";
-
-
 ---
 
 <AuthLayout title="Register">
@@ -13,3 +11,21 @@ import AuthLayout from "../../../layouts/AuthLayout.astro";
     <a href="/auth/login" class="hover:text-gray-300">Already have an account?</a>
     <Button title="Register" type="submit" variant="secondary" />
 </AuthLayout>
+
+<style>
+	a {
+		font-family: 'Inter', sans-serif;
+		font-optical-sizing: auto;
+		font-weight: <weight>;
+		font-style: normal;
+	}
+
+	button,
+	input,
+	input::placeholder {
+		font-family: 'Source Code Pro', monospace;
+		font-optical-sizing: auto;
+		font-weight: <weight>;
+		font-style: normal;
+	}
+</style>

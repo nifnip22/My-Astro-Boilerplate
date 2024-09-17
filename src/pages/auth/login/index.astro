@@ -1,17 +1,33 @@
 ---
-import Button from "../../../components/Button.astro";
-import Input from "../../../components/Input.astro";
-import AuthLayout from "../../../layouts/AuthLayout.astro";
-
-
+import Button from '../../../components/Button.astro';
+import Input from '../../../components/Input.astro';
+import AuthLayout from '../../../layouts/AuthLayout.astro';
 ---
 
-<AuthLayout title="Login">
-    <Input context="email" label="Email" type="email" placeholder="johndoe@example.com" />
-    <Input context="password" label="Password" type="password" placeholder="********" />
-    <div class="flex flex-col sm:flex-row justify-between gap-y-2">
-        <a href="/auth/register" class="hover:text-gray-300">Don't have an account?</a>
-        <a href="" class="hover:text-gray-300">Forgot password?</a>
-    </div>
-    <Button title="Login" type="submit" variant="secondary" />
+<AuthLayout title='Login'>
+	<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' />
+	<Input context='password' label='Password' type='password' placeholder='********' />
+	<div class='flex flex-col sm:flex-row justify-between gap-y-2'>
+		<a href='/auth/register' class='hover:text-gray-300'>Don't have an account?</a>
+		<a href='' class='hover:text-gray-300'>Forgot password?</a>
+	</div>
+	<Button title='Login' type='submit' variant='secondary' />
 </AuthLayout>
+
+<style>
+	a {
+		font-family: 'Inter', sans-serif;
+		font-optical-sizing: auto;
+		font-weight: <weight>;
+		font-style: normal;
+	}
+
+	button,
+	input,
+	input::placeholder {
+		font-family: 'Source Code Pro', monospace;
+		font-optical-sizing: auto;
+		font-weight: <weight>;
+		font-style: normal;
+	}
+</style>
