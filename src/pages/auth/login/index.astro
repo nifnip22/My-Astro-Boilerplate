@@ -1,52 +1,12 @@
 ---
-import '../../../styles/global.css';
+import Input from "../../../components/Input.astro";
+import AuthLayout from "../../../layouts/AuthLayout.astro";
+
+
 ---
 
-<html lang='en'>
-	<head>
-		<meta charset='utf-8' />
-		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-		<meta name='viewport' content='width=device-width' />
-		<meta name='generator' content={Astro.generator} />
-		<link rel='preconnect' href='https://fonts.googleapis.com' />
-		<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
-		<link href='https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap' rel='stylesheet' />
-		<title>Astro</title>
-		<style>
-			h1, label {
-				font-family: 'Inter', sans-serif;
-				font-optical-sizing: auto;
-				font-weight: <weight>;
-				font-style: normal;
-			}
-			p,
-			button,
-            input,
-            input::placeholder {
-				font-family: 'Source Code Pro', monospace;
-				font-optical-sizing: auto;
-				font-weight: <weight>;
-				font-style: normal;
-			}
-		</style>
-	</head>
-    <body class="w-full h-screen bg-zinc-900 text-gray-100 antialiased">
-        <div class="flex flex-col justify-center items-center h-full">
-            <img src='/img/logo/astro-logo-light-gradient.svg' alt='' class="w-52 h-52"/>
-            <div class="p-4 border border-gray-400/50 rounded-xl shadow-[0_20px_50px_rgba(128,_90,_213,_0.7)]">
-                <h1 class="text-3xl font-bold text-center mb-4">Login</h1>
-                <form class="space-y-8">
-                    <div class="flex flex-col gap-y-2">
-                        <label for="email" class="text-md text-start">Email</label>
-                        <input type="email" id="email" class="w-80 p-2 focus:outline-none rounded-xl text-gray-900"placeholder={'john.doe@example.com'} />
-                    </div>
-                    <div class="flex flex-col gap-y-2">
-                        <label for="password" class="text-md text-start">Password</label>
-                        <input type="password" id="password" class="w-80 p-2 focus:outline-none rounded-xl text-gray-900"placeholder={'********'} />
-                    </div>
-                    <button type="submit" class="w-80 p-2 bg-purple-700 rounded-xl text-gray-100 hover:bg-purple-800 duration-300 font-semibold">Login</button>
-                </form>
-            </div>
-        </div>
-    </body>
-</html>
+<AuthLayout title="Login">
+    <Input context="email" label="Email" type="email" placeholder="johndoe@example.com" />
+    <Input context="password" label="Password" type="password" placeholder="********" />
+    <a href="">Don't have an account?</a>
+</AuthLayout>
