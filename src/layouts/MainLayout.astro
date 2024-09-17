@@ -1,4 +1,6 @@
 ---
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
 import '../styles/global.css';
 
 const { title } = Astro.props;
@@ -31,19 +33,10 @@ const { title } = Astro.props;
 		</style>
 	</head>
     <body class="w-full bg-zinc-900 text-gray-100 antialiased">
-        <nav class="w-full py-6 bg-zinc-800 flex items-center justify-between px-8 md:px-12 lg:px-20 xl:px-40 2xl:px-80">
-            <div class="flex items-center gap-x-6">
-                <img src="/img/logo/astro-icon-light-gradient.svg" alt="" class="w-8 h-8">
-                <a href="" class="text-lg text-gray-100 font-bold">Active link</a>
-                <a href="" class="text-lg text-gray-100/50 hover:text-gray-100/70">link</a>
-            </div>
-            <a href="#" class="text-lg text-gray-100 hover:text-gray-300">Username</a>
-        </nav>
+        <Nav />
         <main class="w-full h-screen px-8 md:px-12 lg:px-20 xl:px-40 2xl:px-80">
             <slot />
         </main>
-        <footer class="w-full py-6 bg-zinc-800 flex items-center justify-center px-8 md:px-12 lg:px-20 xl:px-40 2xl:px-80">
-            <p>Copyright &copy; 2024, All Rights Reserved</p>
-        </footer>
+        <Footer />
     </body>
 </html>
