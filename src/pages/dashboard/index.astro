@@ -1,40 +1,11 @@
 ---
-import '../../styles/global.css';
+import MainLayout from "../../layouts/MainLayout.astro";
+
+
 ---
 
-<html lang='en'>
-	<head>
-		<meta charset='utf-8' />
-		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-		<meta name='viewport' content='width=device-width' />
-		<meta name='generator' content={Astro.generator} />
-		<link rel='preconnect' href='https://fonts.googleapis.com' />
-		<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
-		<link href='https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap' rel='stylesheet' />
-		<title>Astro</title>
-		<style>
-			h1 {
-				font-family: 'Inter', sans-serif;
-				font-optical-sizing: auto;
-				font-weight: <weight>;
-				font-style: normal;
-			}
-			p,
-			button {
-				font-family: 'Source Code Pro', monospace;
-				font-optical-sizing: auto;
-				font-weight: <weight>;
-				font-style: normal;
-			}
-		</style>
-	</head>
-    <body class="w-full h-screen bg-zinc-900 text-gray-100 antialiased">
-        <nav class="w-full py-6 bg-zinc-800 flex items-center justify-between px-8 md:px-12 lg:px-20 xl:px-40 2xl:px-80">
-            <div class="flex items-center gap-x-4">
-                <img src="/img/logo/astro-icon-light-gradient.svg" alt="" class="w-8 h-8">
-                
-            </div>
-        </nav>
-        <main></main>
-    </body>
-</html>
+<MainLayout title="Dashboard">
+    <div class="w-full mt-12 p-4 rounded-xl bg-zinc-800">
+        <h1>Dashboard</h1>
+    </div>
+</MainLayout>
