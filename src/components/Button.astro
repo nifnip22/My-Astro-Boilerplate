@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'button'> {
+	variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+}
+
+const { title, type, variant, ...props } = Astro.props;
+
+const variantClass = (() => {
+	switch (variant) {
+		case 'primary':
+			return 'bg-zinc-300 hover:bg-zinc-400 text-gray-900 duration-300';
+		case 'secondary':
+			return 'bg-zinc-700 hover:bg-zinc-800 text-gray-100 duration-300';
+		case 'outline':
+			return 'border border-zinc-100 text-gray-100 hover:bg-zinc-100 hover:text-gray-900 duration-300';
+		case 'ghost':
+			return 'bg-transparent text-gray-100 hover:bg-zinc-100 hover:text-gray-900 duration-300';
+		default:
+			return 'bg-transparent text-gray-100';
+	}
+})();
+---
+
+<button type={type} class={`w-full p-2 font-semibold rounded-xl ${variantClass}`} {...props}>{title}</button>
