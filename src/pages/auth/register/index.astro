@@ -4,13 +4,15 @@ import Input from "../../../components/Input.astro";
 import AuthLayout from "../../../layouts/AuthLayout.astro";
 ---
 
-<AuthLayout title="Register">
-    <Input context="username" label="Username" type="text" placeholder="John Doe" />
-    <Input context="email" label="Email" type="email" placeholder="johndoe@example.com" />
-    <Input context="password" label="Password" type="password" placeholder="********" />
-    <a href="/auth/login" class="hover:text-gray-300">Already have an account?</a>
-    <Button title="Register" type="submit" variant="secondary" />
-</AuthLayout>
+<form class="flex flex-col space-y-8">
+	<AuthLayout title="Register">
+		<Input context="username" label="Username" type="text" placeholder="John Doe" />
+		<Input context="email" label="Email" type="email" placeholder="johndoe@example.com" />
+		<Input context="password" label="Password" type="password" placeholder="********" />
+		<a href="/auth/login" class="hover:text-gray-300">Already have an account?</a>
+		<Button title="Register" type="submit" variant="secondary" />
+	</AuthLayout>
+</form>
 
 <style>
 	a {
