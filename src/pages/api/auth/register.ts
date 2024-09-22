@@ -1,7 +1,7 @@
-import { lucia } from '../../config/auth';
+import { lucia } from '../../../config/auth';
 import { generateIdFromEntropySize } from 'lucia';
 import type { APIContext } from 'astro';
-import { db, userTable } from '../../config/db';
+import { db, userTable } from '../../../config/db';
 
 export async function POST(context: APIContext): Promise<Response> {
 	const formData = await context.request.formData();
