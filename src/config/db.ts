@@ -15,8 +15,8 @@ export const userTable = mysqlTable('users', {
 	email: varchar('email', {
 		length: 255,
 	}).unique().notNull(),
-	password: varchar('password_hash', {
-		length: 20,
+	password: varchar('password', {
+		length: 255,
 	}).notNull(),
 	createdAt: datetime('created_at').notNull(),
 });

@@ -4,7 +4,7 @@ import Input from "../../../components/Input.astro";
 import AuthLayout from "../../../layouts/AuthLayout.astro";
 ---
 
-<form class="flex flex-col space-y-8">
+<form method="post" action="/api/register" class="flex flex-col space-y-8">
 	<AuthLayout title="Register">
 		<Input context="username" label="Username" type="text" placeholder="John Doe" />
 		<Input context="email" label="Email" type="email" placeholder="johndoe@example.com" />
