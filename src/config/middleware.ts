@@ -20,5 +20,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
 	}
 	context.locals.session = session;
 	context.locals.user = user;
+
+	if (!user) {
+		return context.redirect('/login');
+	}
+
 	return next();
 });

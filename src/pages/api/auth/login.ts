@@ -42,9 +42,5 @@ export async function POST(context: APIContext): Promise<Response> {
 	const sessionCookie = lucia.createSessionCookie(session.id);
 	context.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 
-	const user = context.locals.user;
-	if (!user) {
-		return context.redirect('/login');
-	}
 	return context.redirect('/dashboard');
 }
