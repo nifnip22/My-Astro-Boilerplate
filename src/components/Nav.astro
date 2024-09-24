@@ -8,5 +8,10 @@ const { name } = Astro.props;
         <a href="" class="text-lg text-gray-100 font-bold">Active link</a>
         <a href="" class="text-lg text-gray-100/50 hover:text-gray-100/70">link</a>
     </div>
-    <a href="#" class="text-lg text-gray-100 hover:text-gray-300">{name}</a>
+    <div class="flex items-center gap-x-6">
+        <a href="#" class="text-lg text-gray-100 hover:text-gray-300">{name}</a>
+        <form method="post" action="/api/auth/logout" enctype="multipart/form-data">
+            <button type="submit">Sign out</button>
+        </form>
+    </div>
 </nav>
