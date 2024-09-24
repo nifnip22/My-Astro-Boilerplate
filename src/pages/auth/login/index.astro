@@ -2,6 +2,14 @@
 import Button from '../../../components/Button.astro';
 import Input from '../../../components/Input.astro';
 import AuthLayout from '../../../layouts/AuthLayout.astro';
+
+const user = Astro.locals.user;
+
+console.log(user);
+
+if (Astro.locals.user) {
+	return Astro.redirect("/");
+}
 ---
 
 <AuthLayout title='Login'>
@@ -12,7 +20,7 @@ import AuthLayout from '../../../layouts/AuthLayout.astro';
 			<a href='/auth/register' class='hover:text-gray-300'>Don't have an account?</a>
 			<a href='' class='hover:text-gray-300'>Forgot password?</a>
 		</div>
-		<Button title='Login' type='submit' variant='secondary' />
+		<Button title='Login' variant='secondary' />
 	</form>
 </AuthLayout>
 

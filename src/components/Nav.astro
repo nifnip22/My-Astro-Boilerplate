@@ -10,8 +10,20 @@ const { name } = Astro.props;
     </div>
     <div class="flex items-center gap-x-6">
         <a href="#" class="text-lg text-gray-100 hover:text-gray-300">{name}</a>
-        <form method="post" action="/api/auth/logout" enctype="multipart/form-data">
-            <button type="submit">Sign out</button>
+        <form method="post" action="/api/auth/logout">
+            <button>Sign out</button>
         </form>
     </div>
 </nav>
+
+<script>
+	document.forms[0].addEventListener("submit", async (e) => {
+		e.preventDefault();
+		const formElement = e.target as HTMLFormElement;
+		await fetch(formElement.action, {
+			method: formElement.method,
+			body: new FormData(formElement)
+		});
+		window.location.href = "/auth/login";
+	});
+</script>
