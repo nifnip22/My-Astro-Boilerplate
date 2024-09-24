@@ -10,5 +10,6 @@ export default defineConfig({
   integrations: [tailwind(), icon()],
   security: {
 		checkOrigin: true
-	}
+	},
+  output: 'server',
 });
