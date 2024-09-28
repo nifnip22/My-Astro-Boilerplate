@@ -8,22 +8,31 @@ export async function POST(context: APIContext): Promise<Response> {
 
 	const email = formData.get('email');
 	if (typeof email !== 'string' || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
-		return new Response('Invalid email', {
+		return new Response(JSON.stringify({ error: 'Invalid email' }), {
 			status: 400,
+			headers: {
+                'Content-Type': 'application/json'
+            }
 		});
 	}
 
 	const password = formData.get('password');
 	if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
-		return new Response('Invalid password', {
+		return new Response(JSON.stringify({ error: 'Invalid password' }), {
 			status: 400,
+			headers: {
+                'Content-Type': 'application/json'
+            }
 		});
 	}
 
 	const existingUser = await db.select().from(userTable).where(eq(userTable.email, email.toLowerCase())).execute();
-	if (!existingUser) {
-		return new Response('Incorrect username or password', {
+	if (!existingUser || existingUser.length === 0) {
+		return new Response(JSON.stringify({ error: 'Incorrect username or password' }), {
 			status: 400,
+			headers: {
+                'Content-Type': 'application/json'
+            }
 		});
 	}
 
@@ -33,8 +42,11 @@ export async function POST(context: APIContext): Promise<Response> {
 	const validPassword = await Bun.password.verify(password, passwordHash);
 
 	if (!validPassword) {
-		return new Response('Incorrect username or password', {
+		return new Response(JSON.stringify({ error: 'Incorrect username or password' }), {
 			status: 400,
+			headers: {
+                'Content-Type': 'application/json'
+            }
 		});
 	}
 
