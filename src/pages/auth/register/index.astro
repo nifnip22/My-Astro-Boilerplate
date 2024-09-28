@@ -2,6 +2,10 @@
 import Button from '../../../components/Button.astro';
 import Input from '../../../components/Input.astro';
 import AuthLayout from '../../../layouts/AuthLayout.astro';
+
+if (Astro.locals.user) {
+	return Astro.redirect('/dashboard');
+}
 ---
 
 <AuthLayout title='Register'>
