@@ -1,4 +1,4 @@
-import { lucia } from "./auth";
+import { lucia } from "./config/auth";
 import { defineMiddleware } from "astro:middleware";
 
 export const onRequest = defineMiddleware(async (context, next) => {
