@@ -5,10 +5,13 @@ const user = Astro.locals.user;
 if (!user) {
 	return Astro.redirect("/auth/login");
 }
+
+const username = user.username;
 ---
 
 <MainLayout title="Dashboard">
     <div class="w-full mt-12 p-4 rounded-xl bg-zinc-800">
         <h1>Dashboard</h1>
+        <p>Welcome, {username}!</p>
     </div>
 </MainLayout>
