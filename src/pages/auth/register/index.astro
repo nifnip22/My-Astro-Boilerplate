@@ -10,6 +10,7 @@ import AuthLayout from '../../../layouts/AuthLayout.astro';
 		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' />
 		<Input context='password' label='Password' type='password' placeholder='********' />
 		<a href='/auth/login' class='hover:text-gray-300'>Already have an account?</a>
+		<p id='form-error' class='text-red-500'></p>
 		<Button title='Register' type='submit' variant='secondary' />
 	</form>
 </AuthLayout>
@@ -31,3 +32,29 @@ import AuthLayout from '../../../layouts/AuthLayout.astro';
 		font-style: normal;
 	}
 </style>
+
+<script>
+	const errorMessageElement = document.getElementById('form-error');
+
+	document.forms[0]?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		if (!errorMessageElement) return;
+		errorMessageElement.innerText = '';
+
+		const formElement = e.target as HTMLFormElement | null;
+
+		if (!formElement) return;
+		const response = await fetch(formElement.action, {
+			method: formElement.method,
+			body: new FormData(formElement),
+		});
+
+		if (response.ok) {
+			window.location.href = '/dashboard';
+		} else {
+			const result = await response.json();
+			errorMessageElement.innerText = result.error || 'Unknown error occurred';
+		}
+	});
+</script>
