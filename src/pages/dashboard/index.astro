@@ -5,7 +5,6 @@ const user = Astro.locals.user;
 if (!user) {
 	return Astro.redirect("/auth/login");
 }
-console.log(user);
 ---
 
 <MainLayout title="Dashboard">
