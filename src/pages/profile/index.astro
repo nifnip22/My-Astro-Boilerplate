@@ -1,0 +1,56 @@
+---
+import Button from "../../components/Button.astro";
+import Input from "../../components/Input.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+const user = Astro.locals.user;
+if (!user) {
+	return Astro.redirect("/auth/login");
+}
+---
+
+<MainLayout title="Profile">
+	<div class="flex flex-col gap-y-12 mt-12 mb-12">
+		<div class="w-full">
+			<h1 class="text-4xl font-bold">Profile</h1>
+		</div>
+		<div class="w-full p-4 rounded-xl bg-zinc-800">
+			<h1 class="text-2xl font-semibold mb-2">
+				Profile Information
+			</h1>
+			<p class="text-lg mb-8">
+				Update your account's profile information and email address.
+			</p>
+			<div class="flex flex-col gap-y-6">
+				<Input context="username" label="Username" type="text" placeholder="John Doe" value={user.username} />
+				<Input context="email" label="Email" type="email" placeholder="johndoe@example.com" value={user.email} />
+				<Button title="Update Profile" variant="primary" width="w-32"/>
+			</div>
+		</div>
+		<div class="w-full p-4 rounded-xl bg-zinc-800">
+			<h1 class="text-2xl font-semibold mb-2">
+				Update Password
+			</h1>
+			<p class="text-lg mb-8">
+				Ensure your account is using a long, random password to stay secure.
+			</p>
+			<div class="flex flex-col gap-y-6">
+				<Input context="password" label="Current Password" type="password" placeholder="********" />
+				<Input context="password" label="New Password" type="password" placeholder="********" />
+				<Input context="password" label="Confirm Password" type="password" placeholder="********" />
+				<Button title="Save Password" variant="primary" width="w-32"/>
+			</div>
+		</div>
+		<div class="w-full p-4 rounded-xl bg-zinc-800">
+			<h1 class="text-2xl font-semibold mb-2">
+				Delete Account
+			</h1>
+			<p class="text-lg mb-8">
+				Once you delete your account, all of your data will be permanently removed. This action cannot be undone. Please be certain.
+			</p>
+			<div class="flex flex-col gap-y-6">
+				<Button title="Delete Account" variant="danger" width="w-32"/>
+			</div>
+		</div>
+	</div>
+</MainLayout>

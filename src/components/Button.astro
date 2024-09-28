@@ -2,10 +2,11 @@
 import type { HTMLAttributes } from 'astro/types';
 
 interface Props extends HTMLAttributes<'button'> {
-	variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+	variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'warning' | 'ghost';
+	width?: string;
 }
 
-const { title, type, variant, ...props } = Astro.props;
+const { title, type, variant, width, ...props } = Astro.props;
 
 const variantClass = (() => {
 	switch (variant) {
@@ -15,12 +16,18 @@ const variantClass = (() => {
 			return 'bg-zinc-700 hover:bg-zinc-800 text-gray-100 duration-300';
 		case 'outline':
 			return 'border border-zinc-100 text-gray-100 hover:bg-zinc-100 hover:text-gray-900 duration-300';
+		case 'warning':
+			return 'bg-yellow-600 hover:bg-yellow-700 text-gray-900 hover:text-gray-100 duration-300';
+		case 'danger':
+			return 'bg-red-600 hover:bg-red-700 text-gray-100 duration-300';
 		case 'ghost':
 			return 'bg-transparent text-gray-100 hover:bg-zinc-100 hover:text-gray-900 duration-300';
 		default:
 			return 'bg-transparent text-gray-100';
 	}
 })();
+
+const widthClass = width ? width : 'w-full';
 ---
 
-<button type={type} class={`w-full p-2 font-semibold rounded-xl ${variantClass}`} {...props}>{title}</button>
+<button type={type} class={`w-full p-2 font-semibold rounded-xl ${widthClass} ${variantClass}`} {...props}>{title}</button>

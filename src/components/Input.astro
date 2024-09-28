@@ -1,8 +1,18 @@
 ---
-const { context, label, type, placeholder, ...props } = Astro.props;
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'input'> {
+	context: string;
+	label: string;
+	width?: string;
+}
+
+const { context, label, type, placeholder, width, ...props } = Astro.props;
+
+const widthClass = width ? width : 'w-full';
 ---
 
 <div class='flex flex-col gap-y-2'>
-	<label for={context} class='text-md text-start'>{label}</label>
-	<input type={type} id={context} name={context} class='w-full p-2 focus:outline-none rounded-xl text-gray-900' placeholder={placeholder} {...props} />
+	<label for={context} class='text-lg text-start'>{label}</label>
+	<input type={type} id={context} name={context} class={`p-2 focus:outline-none rounded-xl bg-zinc-900 text-gray-100 ${widthClass}`} placeholder={placeholder} {...props} />
 </div>
