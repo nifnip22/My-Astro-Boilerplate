@@ -17,21 +17,21 @@ if (!user) {
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
 			<h1 class='text-2xl font-semibold mb-2'>Profile Information</h1>
 			<p class='text-lg mb-8'>Update your account's profile information and email address.</p>
-			<form method='post' action='/api/auth/update_account' class='flex flex-col gap-y-8'>
+			<form method='post' action='/api/auth/update_account' class='flex flex-col gap-y-8' id='profile-form'>
 				<Input context='username' label='Username' type='text' placeholder='John Doe' value={user.username} required />
 				<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' value={user.email} required />
-				<div id='form-error' class='p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg' style='display: none;'></div>
+				<div id='form-error-profile' class='p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg' style='display: none;'></div>
 				<Button title='Update Profile' type='submit' variant='primary' width='w-32' />
 			</form>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
 			<h1 class='text-2xl font-semibold mb-2'>Update Password</h1>
 			<p class='text-lg mb-8'>Ensure your account is using a long, random password to stay secure.</p>
-			<form method='post' action='/api/auth/update_password' class='flex flex-col gap-y-8'>
+			<form method='post' action='/api/auth/update_password' class='flex flex-col gap-y-8' id='password-form'>
 				<Input context='current_password' label='Current Password' type='password' placeholder='********' required />
 				<Input context='new_password' label='New Password' type='password' placeholder='********' required />
 				<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required />
-				<div id='form-error' class='p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg' style='display: none;'></div>
+				<div id='form-error-password' class='p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg' style='display: none;'></div>
 				<Button title='Save Password' variant='primary' width='w-32' />
 			</form>
 		</div>
@@ -44,10 +44,10 @@ if (!user) {
 </MainLayout>
 
 <script>
-	const errorMessageElement = document.getElementById('form-error');
-
-	document.forms[0]?.addEventListener('submit', async (e) => {
+	document.getElementById('profile-form')?.addEventListener('submit', async (e) => {
 		e.preventDefault();
+
+		const errorMessageElement = document.getElementById('form-error-profile');
 
 		if (!errorMessageElement) return;
 		errorMessageElement.style.display = 'none';
@@ -62,7 +62,33 @@ if (!user) {
 		});
 
 		if (response.ok) {
-			window.location.href = '/dashboard';
+			window.location.href = '/profile';
+		} else {
+			const result = await response.json();
+			errorMessageElement.innerText = result.error || 'Unknown error occurred';
+			errorMessageElement.style.display = 'block';
+		}
+	});
+
+	document.getElementById('password-form')?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		const errorMessageElement = document.getElementById('form-error-password');
+
+		if (!errorMessageElement) return;
+		errorMessageElement.style.display = 'none';
+		errorMessageElement.innerText = '';
+
+		const formElement = e.target as HTMLFormElement | null;
+
+		if (!formElement) return;
+		const response = await fetch(formElement.action, {
+			method: formElement.method,
+			body: new FormData(formElement),
+		});
+
+		if (response.ok) {
+			window.location.href = '/profile';
 		} else {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
