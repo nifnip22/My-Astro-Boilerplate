@@ -14,7 +14,7 @@ if (Astro.locals.user) {
 		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
 		<Input context='password' label='Password' type='password' placeholder='********' required />
 		<a href='/auth/login' class='hover:text-gray-300'>Already have an account?</a>
-		<p id='form-error' class='text-red-500'></p>
+		<div id='form-error' class="p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg" style="display: none;"></div>
 		<Button title='Register' type='submit' variant='secondary' />
 	</form>
 </AuthLayout>
@@ -44,6 +44,7 @@ if (Astro.locals.user) {
 		e.preventDefault();
 
 		if (!errorMessageElement) return;
+		errorMessageElement.style.display = 'none';
 		errorMessageElement.innerText = '';
 
 		const formElement = e.target as HTMLFormElement | null;
@@ -59,6 +60,7 @@ if (Astro.locals.user) {
 		} else {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
+			errorMessageElement.style.display = 'block';
 		}
 	});
 </script>
