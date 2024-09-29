@@ -20,19 +20,20 @@ if (!user) {
 			<form method='post' action='/api/auth/update_account' class='flex flex-col gap-y-8'>
 				<Input context='username' label='Username' type='text' placeholder='John Doe' value={user.username} required />
 				<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' value={user.email} required />
-				<div id='form-error' class='p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg' style="display: none;"></div>
+				<div id='form-error' class='p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg' style='display: none;'></div>
 				<Button title='Update Profile' type='submit' variant='primary' width='w-32' />
 			</form>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
 			<h1 class='text-2xl font-semibold mb-2'>Update Password</h1>
 			<p class='text-lg mb-8'>Ensure your account is using a long, random password to stay secure.</p>
-			<div class='flex flex-col gap-y-8'>
-				<Input context='password' label='Current Password' type='password' placeholder='********' />
-				<Input context='password' label='New Password' type='password' placeholder='********' />
-				<Input context='password' label='Confirm Password' type='password' placeholder='********' />
+			<form method='post' action='/api/auth/update_password' class='flex flex-col gap-y-8'>
+				<Input context='current_password' label='Current Password' type='password' placeholder='********' required />
+				<Input context='new_password' label='New Password' type='password' placeholder='********' required />
+				<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required />
+				<div id='form-error' class='p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg' style='display: none;'></div>
 				<Button title='Save Password' variant='primary' width='w-32' />
-			</div>
+			</form>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
 			<h1 class='text-2xl font-semibold mb-2'>Delete Account</h1>
