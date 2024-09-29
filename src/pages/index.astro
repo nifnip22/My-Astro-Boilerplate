@@ -1,9 +1,11 @@
 ---
 import '../styles/global.css';
 import { Icon } from 'astro-icon/components'
+
+const year = new Date().getFullYear();
 ---
 
-<html lang='en'>
+<html lang='en' class="w-full min-h-screen">
 	<head>
 		<meta charset='utf-8' />
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
@@ -29,12 +31,12 @@ import { Icon } from 'astro-icon/components'
 			}
 		</style>
 	</head>
-	<body class='w-full h-[160vh] md:h-screen bg-gradient-to-b from-slate-900 to-purple-500'>
-		<div class='flex flex-col justify-center items-center h-screen space-y-4 md:px-12 lg:px-20 xl:px-40 2xl:px-80 pt-[40rem] sm:pt-[30rem] md:pt-0'>
+	<body class='bg-slate-900'>
+		<div class='flex flex-col justify-center items-center h-screen space-y-12 md:px-12 lg:px-20 xl:px-40 2xl:px-80 pt-[40rem] sm:pt-[30rem] md:pt-0'>
 			<img src='/img/logo/astro-logo-light-gradient.svg' alt='' />
 			<div class='grid md:grid-cols-2 gap-4 text-gray-100 antialiased'>
 				<a href="https://docs.astro.build/en/getting-started/" target="_blank">
-					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 rounded-xl'>
+					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 md:rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
 							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
 								<Icon name={'general/book'} class={'text-purple-700 w-10 h-10'} />
@@ -45,7 +47,7 @@ import { Icon } from 'astro-icon/components'
 					</div>
 				</a>
 				<a href="https://astro.build/themes/" target="_blank">
-					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 rounded-xl'>
+					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 md:rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
 							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
 								<Icon name={'general/pallete'} class={'text-purple-700 w-10 h-10'} />
@@ -56,7 +58,7 @@ import { Icon } from 'astro-icon/components'
 					</div>
 				</a>
 				<a href="https://astro.build/blog/" target="_blank">
-					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 rounded-xl'>
+					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 md:rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
 							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
 								<Icon name={'general/blog'} class={'text-purple-700 w-10 h-10'} />
@@ -66,7 +68,7 @@ import { Icon } from 'astro-icon/components'
 						</div>
 					</div>
 				</a>
-				<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 rounded-xl'>
+				<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 md:rounded-xl'>
 					<div class='flex flex-col gap-y-6'>
 						<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
 							<Icon name={'general/dashboard'} class={'text-purple-700 w-10 h-10'} />
@@ -78,6 +80,9 @@ import { Icon } from 'astro-icon/components'
 						</p>
 					</div>
 				</div>
+			</div>
+			<div class="flex justify-center text-gray-100/50">
+				&copy; {year}, build with Astro and ❤️
 			</div>
 		</div>
 	</body>
