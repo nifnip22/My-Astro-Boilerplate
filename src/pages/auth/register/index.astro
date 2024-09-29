@@ -10,9 +10,9 @@ if (Astro.locals.user) {
 
 <AuthLayout title='Register'>
 	<form method='post' action='/api/auth/register' class='flex flex-col space-y-8'>
-		<Input context='username' label='Username' type='text' placeholder='John Doe' />
-		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' />
-		<Input context='password' label='Password' type='password' placeholder='********' />
+		<Input context='username' label='Username' type='text' placeholder='John Doe' required />
+		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
+		<Input context='password' label='Password' type='password' placeholder='********' required />
 		<a href='/auth/login' class='hover:text-gray-300'>Already have an account?</a>
 		<p id='form-error' class='text-red-500'></p>
 		<Button title='Register' type='submit' variant='secondary' />
