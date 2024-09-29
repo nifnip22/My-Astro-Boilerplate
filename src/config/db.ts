@@ -19,6 +19,7 @@ export const userTable = mysqlTable('users', {
 		length: 255,
 	}).notNull(),
 	createdAt: datetime('created_at').notNull(),
+	updatedAt: datetime('updated_at'),
 });
 
 export const sessionTable = mysqlTable('session', {
