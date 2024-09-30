@@ -1,7 +1,6 @@
 import type { APIContext } from 'astro';
 import { db, userTable } from '../../../config/db';
 import { eq } from 'drizzle-orm';
-import { lucia } from '../../../config/auth';
 
 export async function POST(context: APIContext): Promise<Response> {
     const formData = await context.request.formData();

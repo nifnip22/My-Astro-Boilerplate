@@ -38,7 +38,9 @@ if (!user) {
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
 			<h1 class='text-2xl font-semibold mb-2'>Delete Account</h1>
 			<p class='text-lg mb-8'>Once you delete your account, all of your data will be permanently removed. This action cannot be undone. Please be certain.</p>
-			<Button title='Delete Account' variant='danger' width='w-32' />
+			<form method="post" action="/api/auth/delete_account">
+				<Button title='Delete Account' variant='danger' width='w-32' />
+			</form>
 		</div>
 	</div>
 </MainLayout>
