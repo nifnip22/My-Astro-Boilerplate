@@ -1,31 +1,80 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice();
 ---
 
-<nav class="w-full py-6 bg-zinc-800 flex items-center justify-between px-8 md:px-12 lg:px-20 xl:px-40 2xl:px-80">
-    <div class="flex items-center gap-x-6">
-        <a href="/dashboard">
-            <img src="/img/logo/astro-icon-light-gradient.svg" alt="" class="w-8 h-8">
-        </a>
-        <a href="/dashboard" class={currentPath === "/dashboard" ? "text-lg text-gray-100 font-bold" : "text-lg text-gray-100/50 hover:text-gray-100/70"}>Dashboard</a>
-        <a href="/profile" class={currentPath === "/profile" ? "text-lg text-gray-100 font-bold" : "text-lg text-gray-100/50 hover:text-gray-100/70"}>Profile</a>
-    </div>
-    <div class="flex items-center gap-x-6">
-        <form method="post" action="/api/auth/logout">
-            <button>Log out</button>
-        </form>
-    </div>
+<nav class='fixed w-full top-0 flex flex-col'>
+	<div class='py-6 bg-zinc-800 flex items-center justify-between px-8 md:px-12 lg:px-20 xl:px-40 2xl:px-80'>
+		<div class='flex items-center'>
+			<a href='/dashboard' class="mr-8">
+				<img src='/img/logo/astro-icon-light-gradient.svg' alt='' class='w-8 h-8' />
+			</a>
+            <div class="hidden md:flex items-center gap-x-8">
+                <a href='/dashboard' class={currentPath === '/dashboard' ? 'text-lg text-gray-100 font-bold' : 'text-lg text-gray-100/50 hover:text-gray-100/70'}>Dashboard</a>
+                <a href='/profile' class={currentPath === '/profile' ? 'text-lg text-gray-100 font-bold' : 'text-lg text-gray-100/50 hover:text-gray-100/70'}>Profile</a>
+            </div>
+		</div>
+		<div>
+			<form method='post' action='/api/auth/logout' class='hidden md:block text-gray-100/50 hover:text-red-600'>
+				<button>Log out</button>
+			</form>
+			<button id='mobile-nav-button' class='block md:hidden p-2 rounded-lg hover:bg-zinc-700'>
+				<Icon name={'general/dropdown'} />
+			</button>
+		</div>
+	</div>
+
+	<!-- Mobile Nav -->
+	<div id="mobile-nav" class='py-4 bg-zinc-800 flex md:hidden flex-col items-center border-t border-gray-100/50' style='display: none;'>
+		<a
+			href='/dashboard'
+			class={currentPath === '/dashboard' ? 'p-2 w-full bg-purple-500/30 border-l-8 border-purple-500 text-lg text-gray-100 font-bold' : 'p-2 w-full border-l-8 border-zinc-700 text-lg text-gray-100/50 hover:text-gray-100/70'}>
+			Dashboard
+		</a>
+		<a
+			href='/profile'
+			class={currentPath === '/profile' ? 'p-2 w-full bg-purple-500/30 border-l-8 border-purple-500 text-lg text-gray-100 font-bold' : 'p-2 w-full border-l-8 border-zinc-700 text-lg text-gray-100/50 hover:text-gray-100/70'}>
+			Profile
+		</a>
+		<form method='post' action='/api/auth/logout' class='mt-12 p-2 w-full hover:bg-red-600/30 border-l-8 border-red-600/50 hover:border-red-600 text-lg text-red-600 hover:text-gray-100'>
+			<button>Log out</button>
+		</form>
+	</div>
 </nav>
 
+<style>
+    button {
+        font-family: 'Inter', sans-serif;
+        font-optical-sizing: auto;
+        font-weight: <weight>;
+        font-style: normal;
+    }
+</style>
+
 <script>
-	document.forms[0].addEventListener("submit", async (e) => {
+	// Nav dropdown
+	const mobileNavButton = document.getElementById('mobile-nav-button');
+	const mobileNav = document.getElementById('mobile-nav');
+
+	if (mobileNavButton && mobileNav) {
+		mobileNavButton.addEventListener('click', () => {
+			if (mobileNav.style.display === 'none' || mobileNav.style.display === '') {
+				mobileNav.style.display = 'flex';
+			} else {
+				mobileNav.style.display = 'none';
+			}
+		});
+	}
+
+	document.forms[0].addEventListener('submit', async (e) => {
 		e.preventDefault();
 		const formElement = e.target as HTMLFormElement;
 		await fetch(formElement.action, {
 			method: formElement.method,
-			body: new FormData(formElement)
+			body: new FormData(formElement),
 		});
-		window.location.href = "/auth/login";
+		window.location.href = '/auth/login';
 	});
 </script>
