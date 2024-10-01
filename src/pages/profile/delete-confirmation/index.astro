@@ -1,0 +1,70 @@
+---
+import AuthLayout from "../../../layouts/AuthLayout.astro";
+import Input from '../../../components/Input.astro';
+import Button from '../../../components/Button.astro';
+
+const user = Astro.locals.user;
+if (!user) {
+	return Astro.redirect("/auth/login");
+}
+---
+
+<AuthLayout title="Delete Account Confirmation">
+    <div class="flex flex-col space-y-8">
+        <p class="text-lg">Type your password to delete your account. Click the cancel button if you want to cancel the deletion.</p>
+        <form method="post" action="/api/auth/delete_account" class="flex flex-col space-y-8">
+            <Input context="password" label="Password" type="password" placeholder="********" required />
+            <div id="form-error" class="p-4 bg-red-600/20 border border-red-600 text-red-400 rounded-lg" style="display: none;"></div>
+            <div class="flex flex-col md:flex-row gap-4">
+                <Button title="Delete Account" type="submit" variant="danger" />
+                <Button title="Cancel" type="button" variant="secondary" onclick="window.location.href='/profile';" />
+            </div>
+        </form>
+    </div>
+</AuthLayout>   
+
+<style>
+	a {
+		font-family: 'Inter', sans-serif;
+		font-optical-sizing: auto;
+		font-weight: <weight>;
+		font-style: normal;
+	}
+
+	button,
+	input,
+	input::placeholder {
+		font-family: 'Source Code Pro', monospace;
+		font-optical-sizing: auto;
+		font-weight: <weight>;
+		font-style: normal;
+	}
+</style>
+
+<script>
+	const errorMessageElement = document.getElementById('form-error');
+
+	document.forms[0]?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		if (!errorMessageElement) return;
+		errorMessageElement.style.display = 'none';
+		errorMessageElement.innerText = '';
+
+		const formElement = e.target as HTMLFormElement | null;
+
+		if (!formElement) return;
+		const response = await fetch(formElement.action, {
+			method: formElement.method,
+			body: new FormData(formElement),
+		});
+
+		if (response.ok) {
+			window.location.href = '/dashboard';
+		} else {
+			const result = await response.json();
+			errorMessageElement.innerText = result.error || 'Unknown error occurred';
+			errorMessageElement.style.display = 'block';
+		}
+	});
+</script>

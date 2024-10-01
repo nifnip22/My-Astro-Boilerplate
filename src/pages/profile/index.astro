@@ -13,7 +13,7 @@ if (!user) {
 	<div class='flex flex-col gap-y-12 mt-12 mb-12'>
 		<div class='w-full'>
 			<h1 class='text-4xl font-bold mb-6'>Profile</h1>
-			<div id='update-success' class='p-4 bg-green-600/20 border border-green-600 text-green-400 rounded-lg' style="display: none;"></div>
+			<div id='update-success' class='p-4 bg-green-600/20 border border-green-600 text-green-400 rounded-lg' style='display: none;'></div>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
 			<h1 class='text-2xl font-semibold mb-2'>Profile Information</h1>
@@ -39,9 +39,7 @@ if (!user) {
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
 			<h1 class='text-2xl font-semibold mb-2'>Delete Account</h1>
 			<p class='text-lg mb-8'>Once you delete your account, all of your data will be permanently removed. This action cannot be undone. Please be certain.</p>
-			<form method="post" action="/api/auth/delete_account">
-				<Button title='Delete Account' variant='danger' width='w-32' />
-			</form>
+			<Button title='Delete Account' variant='danger' width='w-32' onclick="window.location.href='/profile/delete-confirmation';" />
 		</div>
 	</div>
 </MainLayout>
@@ -67,7 +65,7 @@ if (!user) {
 
 		if (response.ok) {
 			successMessageElement.innerText = 'Profile information updated successfully.';
-            successMessageElement.style.display = 'block';
+			successMessageElement.style.display = 'block';
 		} else {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
@@ -96,7 +94,7 @@ if (!user) {
 		if (response.ok) {
 			window.location.href = '/profile';
 			successMessageElement.innerText = 'Password updated successfully.';
-            successMessageElement.style.display = 'block';
+			successMessageElement.style.display = 'block';
 		} else {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';

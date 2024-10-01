@@ -19,6 +19,42 @@ export async function POST(context: APIContext): Promise<Response> {
 		});
 	}
 
+	const formData = await context.request.formData();
+
+	const password = formData.get('password');
+
+	if (typeof password !== 'string') {
+		return new Response(JSON.stringify({ error: 'Invalid input' }), {
+			status: 400,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+	}
+
+	const userRecord = await db.select().from(userTable).where(eq(userTable.id, user.id)).limit(1);
+
+	if (userRecord.length === 0) {
+		return new Response(JSON.stringify({ error: 'User not found' }), {
+			status: 404,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+	}
+
+	const userHashedPassword = userRecord[0].password;
+
+	const passwordMatch = await Bun.password.verify(password, userHashedPassword);
+	if (!passwordMatch) {
+		return new Response(JSON.stringify({ error: 'Current password is incorrect' }), {
+			status: 403,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+	}
+
 	const userId = user.id;
 
 	await db.delete(sessionTable).where(eq(sessionTable.userId, userId));
