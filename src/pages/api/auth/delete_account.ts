@@ -1,5 +1,5 @@
 import type { APIContext } from 'astro';
-import { db, userTable, sessionTable } from '../../../config/db';
+import { db, userTable, sessionTable } from '../../../lib/db';
 import { eq } from 'drizzle-orm';
 
 interface User {
@@ -58,9 +58,9 @@ export async function POST(context: APIContext): Promise<Response> {
 	const userId = user.id;
 
 	await db.delete(sessionTable).where(eq(sessionTable.userId, userId));
-    
+
 	context.cookies.delete('session');
-    
+
 	await db.delete(userTable).where(eq(userTable.id, userId));
 
 	return context.redirect('/auth/login');

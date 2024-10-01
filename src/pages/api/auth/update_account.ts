@@ -1,12 +1,12 @@
 import type { APIContext } from 'astro';
-import { db, userTable } from '../../../config/db';
+import { db, userTable } from '../../../lib/db';
 import { eq } from 'drizzle-orm';
 
 interface User {
 	id: string;
 	username: string;
 	email: string;
-    updated_at: Date;
+	updated_at: Date;
 }
 
 export async function POST(context: APIContext): Promise<Response> {
@@ -42,7 +42,7 @@ export async function POST(context: APIContext): Promise<Response> {
 		});
 	}
 
-    const userId = user.id;
+	const userId = user.id;
 
 	const existingUser = await db.select().from(userTable).where(eq(userTable.email, email.toLowerCase())).execute();
 	if (existingUser.length > 0 && existingUser[0].id !== userId) {

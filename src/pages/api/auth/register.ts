@@ -1,7 +1,7 @@
-import { lucia } from '../../../config/auth';
+import { lucia } from '../../../lib/auth';
 import { generateIdFromEntropySize } from 'lucia';
 import type { APIContext } from 'astro';
-import { db, userTable } from '../../../config/db';
+import { db, userTable } from '../../../lib/db';
 import { eq } from 'drizzle-orm';
 
 export async function POST(context: APIContext): Promise<Response> {
@@ -14,8 +14,8 @@ export async function POST(context: APIContext): Promise<Response> {
 		return new Response(JSON.stringify({ error: 'Invalid username, must be between 4 ~ 31 characters' }), {
 			status: 400,
 			headers: {
-                'Content-Type': 'application/json'
-            }
+				'Content-Type': 'application/json',
+			},
 		});
 	}
 
@@ -24,8 +24,8 @@ export async function POST(context: APIContext): Promise<Response> {
 		return new Response(JSON.stringify({ error: 'Invalid email, must be a valid email' }), {
 			status: 400,
 			headers: {
-                'Content-Type': 'application/json'
-            }
+				'Content-Type': 'application/json',
+			},
 		});
 	}
 
@@ -44,8 +44,8 @@ export async function POST(context: APIContext): Promise<Response> {
 		return new Response(JSON.stringify({ error: 'Invalid password, must be between 6 ~ 255 characters' }), {
 			status: 400,
 			headers: {
-                'Content-Type': 'application/json'
-            }
+				'Content-Type': 'application/json',
+			},
 		});
 	}
 
@@ -54,8 +54,8 @@ export async function POST(context: APIContext): Promise<Response> {
 		return new Response(JSON.stringify({ error: 'Password and confirm password do not match' }), {
 			status: 400,
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
 		});
 	}
 
@@ -73,7 +73,7 @@ export async function POST(context: APIContext): Promise<Response> {
 		username: username,
 		email: email,
 		password: passwordHash,
-        createdAt: new Date(),
+		createdAt: new Date(),
 	});
 
 	const session = await lucia.createSession(userId, {});

@@ -1,5 +1,5 @@
-import { lucia } from "./config/auth";
-import { defineMiddleware } from "astro:middleware";
+import { lucia } from './lib/auth';
+import { defineMiddleware } from 'astro:middleware';
 
 export const onRequest = defineMiddleware(async (context, next) => {
 	const sessionId = context.cookies.get(lucia.sessionCookieName)?.value ?? null;

@@ -1,6 +1,6 @@
-import { lucia } from '../../../config/auth';
+import { lucia } from '../../../lib/auth';
 import type { APIContext } from 'astro';
-import { db, userTable } from '../../../config/db';
+import { db, userTable } from '../../../lib/db';
 import { eq } from 'drizzle-orm';
 
 export async function POST(context: APIContext): Promise<Response> {
@@ -11,8 +11,8 @@ export async function POST(context: APIContext): Promise<Response> {
 		return new Response(JSON.stringify({ error: 'Invalid email' }), {
 			status: 400,
 			headers: {
-                'Content-Type': 'application/json'
-            }
+				'Content-Type': 'application/json',
+			},
 		});
 	}
 
@@ -21,8 +21,8 @@ export async function POST(context: APIContext): Promise<Response> {
 		return new Response(JSON.stringify({ error: 'Invalid password' }), {
 			status: 400,
 			headers: {
-                'Content-Type': 'application/json'
-            }
+				'Content-Type': 'application/json',
+			},
 		});
 	}
 
@@ -31,8 +31,8 @@ export async function POST(context: APIContext): Promise<Response> {
 		return new Response(JSON.stringify({ error: 'Incorrect username or password' }), {
 			status: 400,
 			headers: {
-                'Content-Type': 'application/json'
-            }
+				'Content-Type': 'application/json',
+			},
 		});
 	}
 
@@ -45,8 +45,8 @@ export async function POST(context: APIContext): Promise<Response> {
 		return new Response(JSON.stringify({ error: 'Incorrect username or password' }), {
 			status: 400,
 			headers: {
-                'Content-Type': 'application/json'
-            }
+				'Content-Type': 'application/json',
+			},
 		});
 	}
 
