@@ -49,6 +49,16 @@ export async function POST(context: APIContext): Promise<Response> {
 		});
 	}
 
+	const confirmPassword = formData.get('confirm_password');
+	if (password !== confirmPassword) {
+		return new Response(JSON.stringify({ error: 'Password and confirm password do not match' }), {
+			status: 400,
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+	}
+
 	const userId = generateIdFromEntropySize(10); // 16 characters long
 
 	const passwordHash = await Bun.password.hash(password, {

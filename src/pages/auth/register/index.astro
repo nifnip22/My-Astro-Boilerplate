@@ -13,6 +13,7 @@ if (Astro.locals.user) {
 		<Input context='username' label='Username' type='text' placeholder='John Doe' required />
 		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
 		<Input context='password' label='Password' type='password' placeholder='********' required />
+		<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required />
 		<a href='/auth/login' class='hover:text-gray-300'>Already have an account?</a>
 		<div id='form-error' class="p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg" style="display: none;"></div>
 		<Button title='Register' type='submit' variant='secondary' />
