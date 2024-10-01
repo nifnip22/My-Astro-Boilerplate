@@ -16,21 +16,6 @@ const { title } = Astro.props;
 		<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
 		<link href='https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap' rel='stylesheet' />
 		<title>{title} | Astro</title>
-		<style>
-			h1, p, a {
-				font-family: 'Inter', sans-serif;
-				font-optical-sizing: auto;
-				font-weight: <weight>;
-				font-style: normal;
-			}
-
-			button {
-				font-family: 'Source Code Pro', monospace;
-				font-optical-sizing: auto;
-				font-weight: <weight>;
-				font-style: normal;
-			}
-		</style>
 	</head>
     <body class="w-full bg-zinc-900 text-gray-100 antialiased">
         <Nav name="Username" />
