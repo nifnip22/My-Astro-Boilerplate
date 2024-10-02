@@ -1,4 +1,4 @@
-# Astro Boilerplate
+# ✨ Astro Boilerplate
 
 ## 📖 Introduction
 
@@ -34,27 +34,27 @@ Inside of this Astro boilerplate, you'll see the following folders and files:
 ├── public/
 ├── src/
 │   └── middleware.ts
-    └── components/
-    └── layouts/
-    └── icons/
-    └── lib/
-        └── auth.ts
-        └── db.ts
+│   └── components/
+│   └── layouts/
+│   └── icons/
+│   └── lib/
+│   │   └── auth.ts
+│   │   └── db.ts
 │   └── pages/
 │       └── api/
 │       └── auth/
-│           └── login/
-│           └── register/
+│       │   └── login/
+│       │   └── register/
 │       └── dashboard/
 │       └── profile/
 │       └── index.astro
 └── package.json
 ```
 
-## Authentication
+## 🔐 Authentication & Middleware
 
-This project uses **Lucia** for authentication. Lucia provides a robust and flexible authentication solution, allowing you to easily implement user registration, login, and session management.
+This project uses **Lucia** for authentication. Lucia provides a robust and flexible solution, allowing you to easily implement features such as user registration, login, and session management. In addition, **Lucia** comes with built-in middleware to secure routes and handle authentication seamlessly. For more details, check the official documentation: [Lucia Auth](https://lucia-auth.com/).
 
-## Database
+## 🛢️ Database
 
-By default, this project uses MySQL as its database with the DrizzleORM driver. If you wish to change the database configuration, you can refer to the official Lucia documentation for guidance.
+By default, this project uses MySQL with mysql2 as the client for Node.js as its database with the **DrizzleORM** driver. If you wish to change the database configuration, you can refer to the official [Lucia Database Documentation](https://lucia-auth.com/database/drizzle) & [DrizzleORM Documentation](https://orm.drizzle.team/docs/overview) for guidance.
