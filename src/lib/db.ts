@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import { mysqlTable, varchar, datetime } from 'drizzle-orm/mysql-core';
+import { mysqlTable, varchar, datetime, boolean } from 'drizzle-orm/mysql-core';
 import { drizzle } from 'drizzle-orm/mysql2';
 
 const connection = await mysql.createConnection({ host: 'localhost', user: 'root', password: '', database: 'db_astro_boilerplate' });
@@ -14,7 +14,10 @@ export const userTable = mysqlTable('users', {
 	}).notNull(),
 	email: varchar('email', {
 		length: 255,
-	}).unique().notNull(),
+	})
+		.unique()
+		.notNull(),
+	emailVerified: boolean('email_verified'),
 	password: varchar('password', {
 		length: 255,
 	}).notNull(),
@@ -31,5 +34,23 @@ export const sessionTable = mysqlTable('session', {
 	})
 		.notNull()
 		.references(() => userTable.id),
+	expiresAt: datetime('expires_at').notNull(),
+});
+
+export const emailVerificationCodeTable = mysqlTable('email_verification_code', {
+	id: varchar('id', {
+		length: 255,
+	}).primaryKey(),
+	code: varchar('code', {
+		length: 255,
+	}).notNull(),
+	userId: varchar('user_id', {
+		length: 255,
+	})
+		.notNull()
+		.references(() => userTable.id),
+	email: varchar('email', {
+		length: 255,
+	}).notNull(),
 	expiresAt: datetime('expires_at').notNull(),
 });
