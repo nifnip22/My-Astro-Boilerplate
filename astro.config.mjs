@@ -9,9 +9,15 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), icon(), react()],
-  security: {
-        checkOrigin: true
-    },
-  output: 'server',
+	integrations: [
+		tailwind({
+			applyBaseStyles: false,
+		}),
+		icon(),
+		react(),
+	],
+	security: {
+		checkOrigin: true,
+	},
+	output: 'server',
 });
