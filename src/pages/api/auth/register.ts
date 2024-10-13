@@ -1,4 +1,4 @@
-import { lucia } from '../../../lib/auth';
+import { generateEmailVerificationCode, lucia } from '../../../lib/auth';
 import { generateIdFromEntropySize } from 'lucia';
 import type { APIContext } from 'astro';
 import { db, userTable } from '../../../lib/db';
@@ -72,9 +72,13 @@ export async function POST(context: APIContext): Promise<Response> {
 		id: userId,
 		username: username,
 		email: email,
+		emailVerified: false,
 		password: passwordHash,
 		createdAt: new Date(),
 	});
+
+	const verificationCode = await generateEmailVerificationCode(userId, email);
+	console.log(verificationCode);
 
 	const session = await lucia.createSession(userId, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
