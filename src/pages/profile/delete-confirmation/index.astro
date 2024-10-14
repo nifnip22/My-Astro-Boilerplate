@@ -7,6 +7,10 @@ const user = Astro.locals.user;
 if (!user) {
 	return Astro.redirect("/auth/login");
 }
+
+if (!user.emailVerified) {
+    return Astro.redirect("/auth/email-verification");
+}
 ---
 
 <AuthLayout title="Delete Account Confirmation">
