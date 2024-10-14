@@ -24,7 +24,7 @@ if (user.emailVerified) {
     <div class="flex flex-col space-y-8">
         <p class="text-lg">Please check your email inbox or spam folder for the verification email and then type the verification code below.</p>
         <form method='post' action='/api/auth/email_verification' class='flex flex-col space-y-8'>
-            <Input context='code' label='Email Verification Code' type='text' placeholder='ASDFGH' required />
+            <Input context='code' label='Email Verification Code' type='text' placeholder='Enter 6 digit code' required maxlength={"6"}/>
             <div class='flex flex-col sm:flex-row justify-between gap-y-2'>
                 <a href='' class='hover:text-gray-300'>Resend Verification Email</a>
             </div>

@@ -3,6 +3,7 @@ import { generateIdFromEntropySize } from 'lucia';
 import type { APIContext } from 'astro';
 import { db, userTable } from '../../../lib/db';
 import { eq } from 'drizzle-orm';
+import nodemailer from 'nodemailer';
 
 export async function POST(context: APIContext): Promise<Response> {
 	const formData = await context.request.formData();
@@ -78,11 +79,41 @@ export async function POST(context: APIContext): Promise<Response> {
 	});
 
 	const verificationCode = await generateEmailVerificationCode(userId, email);
-	console.log(verificationCode);
+	await sendVerificationCode(email, verificationCode);
 
 	const session = await lucia.createSession(userId, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
 	context.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 
 	return context.redirect('/auth/email-verification');
+}
+
+async function sendVerificationCode(email: string, code: string): Promise<void> {
+	const transporter = nodemailer.createTransport({
+		service: 'gmail',
+		host: import.meta.env.SMTP_HOST,
+		port: import.meta.env.SMTP_PORT,
+		secure: true,
+		auth: {
+			user: import.meta.env.SMTP_USER,
+			pass: import.meta.env.SMTP_APP_PASSWORD,
+		},
+		debug: true,
+	});
+
+	const mailOptions = {
+		from: 'h.nifnip22@gmail.com',
+		to: email,
+		subject: 'Astro Boilerplate - Email Verification',
+		text: `Your verification code is: ${code}`,
+		html: `<p>Your verification code is: <strong>${code}</strong></p>`,
+	};
+
+	try {
+		await transporter.sendMail(mailOptions);
+		console.log('Verification email sent successfully');
+	} catch (error) {
+		console.error('Error sending verification email:', error);
+		throw new Error('Failed to send verification email');
+	}
 }
