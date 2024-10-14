@@ -6,6 +6,10 @@ if (!user) {
 	return Astro.redirect("/auth/login");
 }
 
+if (!user.emailVerified) {
+    return Astro.redirect("/auth/email-verification");
+}
+
 const username = user.username;
 ---
 
