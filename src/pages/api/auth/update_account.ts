@@ -1,11 +1,14 @@
 import type { APIContext } from 'astro';
 import { db, userTable } from '../../../lib/db';
 import { eq } from 'drizzle-orm';
+import { generateEmailVerificationCode } from '@/lib/auth';
+import { sendVerificationCode } from './register';
 
 interface User {
 	id: string;
 	username: string;
 	email: string;
+	emailVerified: any;
 	updated_at: Date;
 }
 
@@ -54,14 +57,19 @@ export async function POST(context: APIContext): Promise<Response> {
 		});
 	}
 
-	await db
-		.update(userTable)
-		.set({
-			username: username,
-			email: email,
-			updatedAt: new Date(),
-		})
-		.where(eq(userTable.id, userId));
+	let updateData = {
+		username: username,
+		email: email,
+		emailVerified: user.email.toLowerCase() !== email.toLowerCase() ? false : user.emailVerified,
+		updatedAt: new Date(),
+	};
+	
+	if (user.email.toLowerCase() !== email.toLowerCase()) {
+		const verificationCode = await generateEmailVerificationCode(userId, email);
+		await sendVerificationCode(email, verificationCode);
+	}
+	
+	await db.update(userTable).set(updateData).where(eq(userTable.id, userId));
 
-	return context.redirect('/profile');
+	return context.redirect('/auth/email-verification');
 }

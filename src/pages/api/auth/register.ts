@@ -93,7 +93,7 @@ export async function POST(context: APIContext): Promise<Response> {
 	});
 }
 
-async function sendVerificationCode(email: string, code: string): Promise<void> {
+export async function sendVerificationCode(email: string, code: string): Promise<void> {
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		host: import.meta.env.SMTP_HOST,
