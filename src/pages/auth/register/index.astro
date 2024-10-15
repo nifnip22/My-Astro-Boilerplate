@@ -16,6 +16,7 @@ if (Astro.locals.user) {
 		<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required />
 		<a href='/auth/login' class='hover:text-gray-300'>Already have an account?</a>
 		<div id='form-error' class="p-4 bg-red-600/30 border border-red-600 text-red-600 rounded-lg" style="display: none;"></div>
+		<div id='form-success' class="p-4 bg-emerald-600/30 border border-emerald-600 text-emerald-600 rounded-lg" style="display: none;"></div>
 		<Button title='Register' type='submit' variant='secondary' />
 	</form>
 </AuthLayout>
@@ -31,13 +32,17 @@ if (Astro.locals.user) {
 
 <script>
 	const errorMessageElement = document.getElementById('form-error');
+	const successMessageElement = document.getElementById('form-success');
 
 	document.forms[0]?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 
-		if (!errorMessageElement) return;
+		if (!errorMessageElement || !successMessageElement) return;
+
 		errorMessageElement.style.display = 'none';
 		errorMessageElement.innerText = '';
+		successMessageElement.style.display = 'none';
+		successMessageElement.innerText = '';
 
 		const formElement = e.target as HTMLFormElement | null;
 
@@ -47,10 +52,16 @@ if (Astro.locals.user) {
 			body: new FormData(formElement),
 		});
 
+		const result = await response.json();
+
 		if (response.ok) {
-			window.location.href = '/dashboard';
+			successMessageElement.innerText = result.success || 'Operation successful';
+			successMessageElement.style.display = 'block';
+
+			setTimeout(() => {
+				window.location.href = '/auth/email-verification';
+			}, 2000);
 		} else {
-			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
 			errorMessageElement.style.display = 'block';
 		}

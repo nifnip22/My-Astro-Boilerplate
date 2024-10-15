@@ -83,9 +83,14 @@ export async function POST(context: APIContext): Promise<Response> {
 
 	const session = await lucia.createSession(userId, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
-	context.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-
-	return context.redirect('/auth/email-verification');
+	
+	return new Response(JSON.stringify({ success: 'Email verification in process, please wait'}), {
+		status: 200,
+		headers: {
+			"Content-Type": "application/json",
+			"Set-Cookie": sessionCookie.serialize()
+		}
+	});
 }
 
 async function sendVerificationCode(email: string, code: string): Promise<void> {
