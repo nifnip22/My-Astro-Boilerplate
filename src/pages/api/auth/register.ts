@@ -83,13 +83,13 @@ export async function POST(context: APIContext): Promise<Response> {
 
 	const session = await lucia.createSession(userId, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
-	
-	return new Response(JSON.stringify({ success: 'Email verification in process, please wait'}), {
+
+	return new Response(JSON.stringify({ success: 'Email verification in process, please wait' }), {
 		status: 200,
 		headers: {
-			"Content-Type": "application/json",
-			"Set-Cookie": sessionCookie.serialize()
-		}
+			'Content-Type': 'application/json',
+			'Set-Cookie': sessionCookie.serialize(),
+		},
 	});
 }
 
@@ -111,7 +111,14 @@ async function sendVerificationCode(email: string, code: string): Promise<void> 
 		to: email,
 		subject: 'Astro Boilerplate - Email Verification',
 		text: `Your verification code is: ${code}`,
-		html: `<p>Your verification code is: <strong>${code}</strong></p>`,
+		html: `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+            <h2 style="color: #4a4a4a;">Astro Boilerplate - Email Verification</h2>
+            <p style="color: #333;">Hello,</p>
+            <p style="color: #333;">Your verification code is: <strong style="color: #007bff;">${code}</strong></p>
+            <p style="color: #333;">Please use this code to verify your email. This code will expire in 15 minutes after this email was sent.</p>
+            <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+            <p style="color: #999;">If you did not request this email, please ignore it.</p>
+        </div>`,
 	};
 
 	try {
