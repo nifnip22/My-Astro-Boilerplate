@@ -1,8 +1,9 @@
 import { generateIdFromEntropySize, Lucia } from 'lucia';
 import { DrizzleMySQLAdapter } from '@lucia-auth/adapter-drizzle';
-import { db, sessionTable, userTable, emailVerificationCodeTable } from './db';
+import { db, sessionTable, userTable, emailVerificationCodeTable, passwordResetTokensTable } from './db';
 import { TimeSpan, createDate } from "oslo";
-import { generateRandomString, alphabet } from "oslo/crypto";
+import { generateRandomString, alphabet, sha256 } from "oslo/crypto";
+import { encodeHex } from "oslo/encoding";
 import { eq } from 'drizzle-orm';
 
 const adapter = new DrizzleMySQLAdapter(db, sessionTable, userTable); // your adapter
@@ -19,6 +20,19 @@ export async function generateEmailVerificationCode(userId: string, email: strin
 		expiresAt: createDate(new TimeSpan(15, "m")) // 15 minutes
 	});
 	return code;
+}
+
+export async function createPasswordResetToken(userId: string): Promise<string> {
+	await db.delete(passwordResetTokensTable).where(eq(passwordResetTokensTable.userId, userId));
+	const tokenId = generateIdFromEntropySize(25);
+	const tokenHash = encodeHex(await sha256(new TextEncoder().encode(tokenId)));
+	await db.insert(passwordResetTokensTable).values({
+		id: tokenId,
+		tokenHash: tokenHash,
+		userId: userId,
+		expiresAt: createDate(new TimeSpan(2, "h")) // 2 hours
+	});
+	return tokenId;
 }
 
 export const lucia = new Lucia(adapter, {

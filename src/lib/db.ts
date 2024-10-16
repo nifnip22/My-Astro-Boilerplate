@@ -8,7 +8,7 @@ export const db = drizzle(connection);
 export const userTable = mysqlTable('users', {
 	id: varchar('id', {
 		length: 255,
-	}).primaryKey(),
+	}).notNull().primaryKey(),
 	username: varchar('username', {
 		length: 255,
 	}).notNull(),
@@ -28,19 +28,20 @@ export const userTable = mysqlTable('users', {
 export const sessionTable = mysqlTable('session', {
 	id: varchar('id', {
 		length: 255,
-	}).primaryKey(),
+	}).notNull().primaryKey(),
 	userId: varchar('user_id', {
 		length: 255,
 	})
 		.notNull()
-		.references(() => userTable.id),
+		.references(() => userTable.id)
+		.unique(),
 	expiresAt: datetime('expires_at').notNull(),
 });
 
 export const emailVerificationCodeTable = mysqlTable('email_verification_code', {
 	id: varchar('id', {
 		length: 255,
-	}).primaryKey(),
+	}).notNull().primaryKey(),
 	code: varchar('code', {
 		length: 255,
 	}).notNull(),
@@ -48,9 +49,26 @@ export const emailVerificationCodeTable = mysqlTable('email_verification_code', 
 		length: 255,
 	})
 		.notNull()
-		.references(() => userTable.id),
+		.references(() => userTable.id)
+		.unique(),
 	email: varchar('email', {
 		length: 255,
 	}).notNull(),
 	expiresAt: datetime('expires_at').notNull(),
 });
+
+export const passwordResetTokensTable = mysqlTable('password_reset_tokens', {
+	id: varchar('id', {
+		length: 255,
+	}).notNull().primaryKey(),
+	tokenHash: varchar('token_hash', {
+		length: 255,
+	}).notNull().unique(),
+	userId: varchar('user_id', {
+		length: 255,
+	})
+		.notNull()
+		.references(() => userTable.id)
+		.unique(),
+	expiresAt: datetime('expires_at').notNull(),
+})
