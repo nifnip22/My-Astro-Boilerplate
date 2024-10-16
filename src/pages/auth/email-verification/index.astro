@@ -10,13 +10,7 @@ if (!user) {
 }
 
 if (user.emailVerified) {
-    return new Response(JSON.stringify({ error: "Email already verified" }), {
-        status: 302,
-        headers: {
-            Location: "/dashboard",
-			"Content-Type": "application/json",
-        },
-    });
+    return Astro.redirect("/dashboard");
 }
 
 const email = user.email;
