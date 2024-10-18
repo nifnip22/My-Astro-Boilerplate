@@ -14,6 +14,7 @@ if (Astro.locals.user) {
         <form method='post' action='/api/auth/reset_password' class='flex flex-col space-y-8'>
             <Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
             <div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
+            <div id='form-success' class="p-4 bg-emerald-600/30 border border-emerald-600 text-emerald-600 rounded-lg" style="display: none;"></div>
             <div class="flex flex-col md:flex-row gap-4">
                 <Button title='Send Password Reset Link' variant='primary' />
                 <Button title='Cancel' type='button' variant='secondary' onclick="window.location.href='/auth/login';" />
@@ -33,13 +34,16 @@ if (Astro.locals.user) {
 
 <script>
 	const errorMessageElement = document.getElementById('form-error');
+    const successMessageElement = document.getElementById('form-success');
 
 	document.forms[0]?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 
-		if (!errorMessageElement) return;
+		if (!errorMessageElement || !successMessageElement) return;
 		errorMessageElement.style.display = 'none';
 		errorMessageElement.innerText = '';
+        successMessageElement.style.display = 'none';
+        successMessageElement.innerText = '';
 
 		const formElement = e.target as HTMLFormElement | null;
 
@@ -49,10 +53,12 @@ if (Astro.locals.user) {
 			body: new FormData(formElement),
 		});
 
+        const result = await response.json();
+
 		if (response.ok) {
-			window.location.href = '/auth/reset-password/[token]';
+			successMessageElement.innerText = result.success || 'Operation successful';
+			successMessageElement.style.display = 'block';
 		} else {
-			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
 			errorMessageElement.style.display = 'block';
 		}

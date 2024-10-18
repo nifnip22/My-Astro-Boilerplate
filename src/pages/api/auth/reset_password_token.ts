@@ -21,6 +21,10 @@ export async function GET(context: APIContext): Promise<Response> {
 
     return new Response(null, {
         status: 302,
+        headers: {
+            Location: `/auth/reset-password/${token}`,
+            "Referrer-Policy": "strict-origin"
+        }
     });
 }
 
