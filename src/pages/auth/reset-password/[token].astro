@@ -3,22 +3,22 @@ import Button from '../../../components/Button.astro';
 import Input from '../../../components/Input.astro';
 import AuthLayout from '../../../layouts/AuthLayout.astro';
 
+const params = Astro.params;
+
 if (Astro.locals.user) {
 	return Astro.redirect('/dashboard');
 }
 ---
 
 <AuthLayout title='Reset Password'>
-	<form method='post' action='/api/auth/reset_password' class='flex flex-col space-y-8'>
-		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
-		<Input context='password' label='Password' type='password' placeholder='********' required />
-		<div class='flex flex-col sm:flex-row justify-between gap-y-2'>
-			<a href='/auth/register' class='hover:text-gray-300'>Don't have an account?</a>
-			<a href='/auth/reset-password' type='submit' class='hover:text-gray-300'>Forgot password?</a>
-		</div>
-		<div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
-		<Button title='Login' variant='secondary' />
-	</form>
+    <div class="flex flex-col space-y-8">
+        <p class="text-lg text-center">Your password has been reset. Please enter your new password below.</p>
+        <form method='post' action='/api/auth/login' class='flex flex-col space-y-8'>
+            <Input context='password' label='New Password' type='password' placeholder='********' required />
+            <div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
+            <Button title='Save Password & Login' variant='secondary' />
+        </form>
+    </div>
 </AuthLayout>
 
 <style>

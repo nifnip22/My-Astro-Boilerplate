@@ -8,17 +8,18 @@ if (Astro.locals.user) {
 }
 ---
 
-<AuthLayout title='Reset Password'>
-	<form method='post' action='/api/auth/reset_password' class='flex flex-col space-y-8'>
-		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
-		<Input context='password' label='Password' type='password' placeholder='********' required />
-		<div class='flex flex-col sm:flex-row justify-between gap-y-2'>
-			<a href='/auth/register' class='hover:text-gray-300'>Don't have an account?</a>
-			<a href='/auth/reset-password' type='submit' class='hover:text-gray-300'>Forgot password?</a>
-		</div>
-		<div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
-		<Button title='Login' variant='secondary' />
-	</form>
+<AuthLayout title='Forgot Password'>
+    <div class="flex flex-col space-y-8">
+        <p class="text-lg text-center">If you really forgot your account's password and want to reset it, please enter your email below to receive a password reset link that will be sent to your email's inbox or spam folder.</p>
+        <form method='post' action='/api/auth/reset_password' class='flex flex-col space-y-8'>
+            <Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
+            <div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
+            <div class="flex flex-col md:flex-row gap-4">
+                <Button title='Send Password Reset Link' variant='primary' />
+                <Button title='Cancel' type='button' variant='secondary' onclick="window.location.href='/auth/login';" />
+            </div>
+        </form>
+    </div>
 </AuthLayout>
 
 <style>
@@ -49,7 +50,7 @@ if (Astro.locals.user) {
 		});
 
 		if (response.ok) {
-			window.location.href = '/dashboard';
+			window.location.href = '/auth/reset-password/[token]';
 		} else {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
