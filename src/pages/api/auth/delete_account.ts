@@ -1,5 +1,5 @@
 import type { APIContext } from 'astro';
-import { db, userTable, sessionTable, emailVerificationCodeTable } from '../../../lib/db';
+import { db, userTable, sessionTable, emailVerificationCodeTable, passwordResetTokensTable } from '../../../lib/db';
 import { eq } from 'drizzle-orm';
 
 interface User {
@@ -56,6 +56,8 @@ export async function POST(context: APIContext): Promise<Response> {
 	}
 
 	const userId = user.id;
+
+	await db.delete(passwordResetTokensTable).where(eq(passwordResetTokensTable.userId, userId));
 
 	await db.delete(emailVerificationCodeTable).where(eq(emailVerificationCodeTable.userId, userId));
 
