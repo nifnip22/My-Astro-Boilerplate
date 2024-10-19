@@ -8,8 +8,8 @@ if (Astro.locals.user) {
 }
 ---
 
-<AuthLayout title='Reset Password'>
-	<form method='post' action='/api/auth/reset_password' class='flex flex-col space-y-8'>
+<AuthLayout title='Login'>
+	<form method='post' action='/api/auth/login' class='flex flex-col space-y-8'>
 		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
 		<Input context='password' label='Password' type='password' placeholder='********' required />
 		<div class='flex flex-col sm:flex-row justify-between gap-y-2'>

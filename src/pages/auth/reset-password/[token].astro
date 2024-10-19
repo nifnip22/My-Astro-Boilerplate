@@ -1,9 +1,24 @@
 ---
+import { encodeHex } from 'oslo/encoding';
 import Button from '../../../components/Button.astro';
 import Input from '../../../components/Input.astro';
 import AuthLayout from '../../../layouts/AuthLayout.astro';
+import { sha256 } from 'oslo/crypto';
+import { db, passwordResetTokensTable } from '@/lib/db';
+import { eq } from 'drizzle-orm';
+import { isWithinExpirationDate } from 'oslo';
 
-const params = Astro.params;
+const token = Astro.params.token;
+
+const tokenHash = encodeHex(await sha256(new TextEncoder().encode(token)));
+
+const tokenRecord = await db.select()
+    .from(passwordResetTokensTable)
+    .where(eq(passwordResetTokensTable.tokenHash, tokenHash))
+    .limit(1)
+    .execute();
+
+const isValidToken = tokenRecord.length > 0 && isWithinExpirationDate(tokenRecord[0].expiresAt);
 
 if (Astro.locals.user) {
 	return Astro.redirect('/dashboard');
@@ -11,14 +26,23 @@ if (Astro.locals.user) {
 ---
 
 <AuthLayout title='Reset Password'>
-    <div class="flex flex-col space-y-8">
-        <p class="text-lg text-center">Your password has been reset. Please enter your new password below.</p>
-        <form method='post' action='/api/auth/login' class='flex flex-col space-y-8'>
-            <Input context='password' label='New Password' type='password' placeholder='********' required />
-            <div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
-            <Button title='Save Password & Login' variant='secondary' />
-        </form>
-    </div>
+	{
+		isValidToken ? (
+			<div class='flex flex-col space-y-8'>
+				<p class='text-lg text-center'>Please enter your new password below to reset your password.</p>
+				<form method='post' action={`/api/auth/reset_password/${token}`} class='flex flex-col space-y-8'>
+					<Input context='password' label='New Password' type='password' placeholder='********' required />
+					<div id='form-error' class='p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg' style='display: none;' />
+					<Button title='Save Password & Login' variant='secondary' />
+				</form>
+			</div>
+		) : (
+			<div class='flex flex-col space-y-8'>
+				<p class='text-lg text-center'>The password reset link is invalid or has expired. Please request a new password reset link.</p>
+                <Button title='Go Back' type='button' variant='secondary' onclick="window.location.href='/auth/reset-password';" />
+			</div>
+		)
+	}
 </AuthLayout>
 
 <style>

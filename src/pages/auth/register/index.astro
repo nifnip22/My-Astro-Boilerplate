@@ -55,7 +55,7 @@ if (Astro.locals.user) {
 		const result = await response.json();
 
 		if (response.ok) {
-			successMessageElement.innerText = result.success || 'Operation successful';
+			successMessageElement.innerText = result.success || 'Registration successful, email verification link sent. Please wait...';
 			successMessageElement.style.display = 'block';
 
 			setTimeout(() => {

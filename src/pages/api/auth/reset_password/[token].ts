@@ -34,8 +34,8 @@ export async function POST(context: APIContext): Promise<Response> {
 
     const password = formData.get('password');
     if (typeof password !== "string" || password.length < 8) {
-        return new Response(JSON.stringify("Invalid password, must be between 6 ~ 255 characters"), {
-            status: 404,
+        return new Response(JSON.stringify("Invalid password, must be between 8 ~ 255 characters"), {
+            status: 400,
             headers: {
                 "Content-Type": "application/json",
             },
@@ -55,7 +55,7 @@ export async function POST(context: APIContext): Promise<Response> {
 
     if (!token || !isWithinExpirationDate(expires)) {
         return new Response(JSON.stringify({ error: "Invalid token" }), {
-            status: 404,
+            status: 400,
             headers: {
                 "Content-Type": "application/json",
             },

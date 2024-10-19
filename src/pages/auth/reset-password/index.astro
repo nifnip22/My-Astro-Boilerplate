@@ -56,7 +56,7 @@ if (Astro.locals.user) {
         const result = await response.json();
 
 		if (response.ok) {
-			successMessageElement.innerText = result.success || 'Operation successful';
+			successMessageElement.innerText = result.success || 'Email sent successfully. Please check your email';
 			successMessageElement.style.display = 'block';
 		} else {
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
