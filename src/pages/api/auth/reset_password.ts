@@ -5,40 +5,58 @@ import { eq } from 'drizzle-orm';
 import nodemailer from 'nodemailer';
 
 export async function POST(context: APIContext): Promise<Response> {
-	const formData = await context.request.formData();
-	const email = formData.get('email');
+	try {
+		const formData = await context.request.formData();
+		const email = formData.get('email');
 
-	if (typeof email !== 'string' || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
-		return new Response(JSON.stringify({ error: 'Invalid email' }), {
-			status: 400,
+		if (typeof email !== 'string' || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
+			return new Response(JSON.stringify({ error: 'Invalid email' }), {
+				status: 400,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+		}
+
+		const user = await db.select().from(userTable).where(eq(userTable.email, email.toLowerCase())).limit(1).execute();
+		if (user.length === 0) {
+			return new Response(JSON.stringify({ error: 'Account with that email does not exist' }), {
+				status: 400,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+		}
+
+		const userId = user[0].id;
+		const verificationToken = await createPasswordResetToken(userId);
+		const verificationLink = 'http://localhost:4321/auth/reset-password/' + verificationToken;
+
+		try {
+			await sendPasswordResetToken(email, verificationLink);
+		} catch (error) {
+			return new Response(JSON.stringify({ error: 'Failed to send password reset email' }), {
+				status: 500,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+		}
+
+		return new Response(JSON.stringify({ message: 'Password reset email successfully sent' }), {
+			status: 200,
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		});
-	}
-
-	const user = await db.select().from(userTable).where(eq(userTable.email, email.toLowerCase())).limit(1).execute();
-	if (user.length === 0) {
-		return new Response(JSON.stringify({ error: 'User not found' }), {
-			status: 400,
+	} catch (error) {
+		return new Response(JSON.stringify({ error: 'Unexpected error occurred' }), {
+			status: 500,
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		});
+		})
 	}
-
-	const userId = user[0].id;
-	const verificationToken = await createPasswordResetToken(userId);
-	const verificationLink = 'http://localhost:4321/auth/reset-password/' + verificationToken;
-
-	await sendPasswordResetToken(email, verificationLink);
-
-	return new Response(JSON.stringify({ message: 'Password reset email successfully sent' }), {
-		status: 200,
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
 }
 
 async function sendPasswordResetToken(email: string, verificationLink: string): Promise<void> {

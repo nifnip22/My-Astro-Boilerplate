@@ -31,9 +31,12 @@ if (Astro.locals.user) {
 			<div class='flex flex-col space-y-8'>
 				<p class='text-lg text-center'>Please enter your new password below to reset your password.</p>
 				<form method='post' action={`/api/auth/reset_password/${token}`} class='flex flex-col space-y-8'>
-					<Input context='password' label='New Password' type='password' placeholder='********' required />
+					<Input context='password' label='New Password' type='password' placeholder='********' required maxlength={"20"} />
 					<div id='form-error' class='p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg' style='display: none;' />
-					<Button title='Save Password & Login' variant='secondary' />
+					<div class="flex flex-col md:flex-row gap-4">
+						<Button title='Save Password & Login' variant='primary' />
+						<Button title='Cancel' type='button' variant='secondary' onclick="window.location.href='/auth/login';" />
+					</div>
 				</form>
 			</div>
 		) : (
