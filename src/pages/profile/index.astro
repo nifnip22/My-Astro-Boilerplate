@@ -17,15 +17,15 @@ if (!user.emailVerified) {
 	<div class='flex flex-col gap-y-12 mt-12 mb-12'>
 		<div class='w-full'>
 			<h1 class='text-4xl font-bold mb-6'>Profile</h1>
-			<div id='update-success' class='p-4 bg-emerald-600/20 border border-emerald-600 text-emerald-400 rounded-lg' style='display: none;'></div>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
 			<h1 class='text-2xl font-semibold mb-2'>Profile Information</h1>
 			<p class='text-lg mb-8'>Update your account's profile information and email address.</p>
 			<form method='post' action='/api/auth/update_account' class='flex flex-col gap-y-8' id='profile-form'>
-				<Input context='username' label='Username' type='text' placeholder='John Doe' value={user.username} required />
+				<Input context='username' label='Username' type='text' placeholder='John Doe' value={user.username} required maxlength={"30"} />
 				<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' value={user.email} required />
 				<div id='form-error-profile' class='p-4 bg-rose-600/20 border border-rose-600 text-rose-400 rounded-lg' style='display: none;'></div>
+				<div id='update-account-success' class='p-4 bg-emerald-600/20 border border-emerald-600 text-emerald-400 rounded-lg' style='display: none;'></div>
 				<Button title='Update Profile' type='submit' variant='primary' width='w-32' />
 			</form>
 		</div>
@@ -33,10 +33,11 @@ if (!user.emailVerified) {
 			<h1 class='text-2xl font-semibold mb-2'>Update Password</h1>
 			<p class='text-lg mb-8'>Ensure your account is using a long, random password to stay secure.</p>
 			<form method='post' action='/api/auth/update_password' class='flex flex-col gap-y-8' id='password-form'>
-				<Input context='current_password' label='Current Password' type='password' placeholder='********' required />
-				<Input context='new_password' label='New Password' type='password' placeholder='********' required />
-				<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required />
+				<Input context='current_password' label='Current Password' type='password' placeholder='********' required maxlength={"20"} />
+				<Input context='new_password' label='New Password' type='password' placeholder='********' required maxlength={"20"} />
+				<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required maxlength={"20"} />
 				<div id='form-error-password' class='p-4 bg-rose-600/20 border border-rose-600 text-rose-400 rounded-lg' style='display: none;'></div>
+				<div id='update-password-success' class='p-4 bg-emerald-600/20 border border-emerald-600 text-emerald-400 rounded-lg' style='display: none;'></div>
 				<Button title='Save Password' variant='primary' width='w-32' />
 			</form>
 		</div>
@@ -62,7 +63,7 @@ if (!user.emailVerified) {
 		e.preventDefault();
 
 		const errorMessageElement = document.getElementById('form-error-profile');
-		const successMessageElement = document.getElementById('update-success');
+		const successMessageElement = document.getElementById('update-account-success');
 
 		if (!errorMessageElement || !successMessageElement) return;
 		errorMessageElement.style.display = 'none';
@@ -77,8 +78,12 @@ if (!user.emailVerified) {
 		});
 
 		if (response.ok) {
-			successMessageElement.innerText = 'Profile information updated successfully. Please refresh the page or try to relog.';
+			successMessageElement.innerText = 'Profile information updated successfully. Please wait...';
 			successMessageElement.style.display = 'block';
+
+			setTimeout(() => {
+				window.location.href = '/profile';
+			}, 1000);
 		} else {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
@@ -90,7 +95,7 @@ if (!user.emailVerified) {
 		e.preventDefault();
 
 		const errorMessageElement = document.getElementById('form-error-password');
-		const successMessageElement = document.getElementById('update-success');
+		const successMessageElement = document.getElementById('update-password-success');
 
 		if (!errorMessageElement || !successMessageElement) return;
 		errorMessageElement.style.display = 'none';
@@ -105,8 +110,12 @@ if (!user.emailVerified) {
 		});
 
 		if (response.ok) {
-			successMessageElement.innerText = 'Password updated successfully. Please refresh the page or try to relog.';
+			successMessageElement.innerText = 'Password updated successfully. Please wait...';
 			successMessageElement.style.display = 'block';
+
+			setTimeout(() => {
+				window.location.href = '/profile';
+			}, 1000);
 		} else {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';

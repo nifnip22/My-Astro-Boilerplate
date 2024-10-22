@@ -17,7 +17,7 @@ if (!user.emailVerified) {
     <div class="flex flex-col space-y-8">
         <p class="text-lg">Type your password to delete your account. Click the cancel button if you want to cancel the deletion.</p>
         <form method="post" action="/api/auth/delete_account" class="flex flex-col space-y-8">
-            <Input context="password" label="Password" type="password" placeholder="********" required />
+            <Input context="password" label="Password" type="password" placeholder="********" required maxlength={"20"} />
             <div id="form-error" class="p-4 bg-rose-600/20 border border-rose-600 text-rose-400 rounded-lg" style="display: none;"></div>
             <div class="flex flex-col md:flex-row gap-4">
                 <Button title="Delete Account" type="submit" variant="danger" />

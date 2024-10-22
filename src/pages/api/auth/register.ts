@@ -93,7 +93,7 @@ export async function POST(context: APIContext): Promise<Response> {
 		const session = await lucia.createSession(userId, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 
-		return new Response(JSON.stringify({ success: 'Email verification in process, please wait' }), {
+		return new Response(JSON.stringify({ success: 'Register success! Email verification in process, please wait...' }), {
 			status: 200,
 			headers: {
 				'Content-Type': 'application/json',
