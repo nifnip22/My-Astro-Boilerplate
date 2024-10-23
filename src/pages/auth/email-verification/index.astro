@@ -6,25 +6,29 @@ import AuthLayout from '../../../layouts/AuthLayout.astro';
 const user = Astro.locals.user;
 
 if (!user) {
-    return Astro.redirect("/auth/login");
+	return Astro.redirect('/auth/login');
 }
 
 if (user.emailVerified) {
-    return Astro.redirect("/dashboard");
+	return Astro.redirect('/dashboard');
 }
 
 const email = user.email;
 ---
 
 <AuthLayout title='Email Verification'>
-    <div class="flex flex-col space-y-8">
-        <p class="text-lg text-center">The verification code has been sent to <b>'{email}'</b>. Please check your email inbox or spam folder for the verification email and then type the verification code below.</p>
-        <form method='post' action='/api/auth/email_verification' class='flex flex-col space-y-8'>
-            <Input context='code' label='Email Verification Code' type='text' placeholder='Enter 6 digit code' required maxlength={"6"} oninput="this.value = this.value.toUpperCase()"/>
-            <div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
-            <Button title='Verify' variant='secondary' />
-        </form>
-    </div>
+	<div class='flex flex-col space-y-8'>
+		<p class='text-lg text-center'>The verification code has been sent to <b>'{email}'</b>. Please check your email inbox or spam folder for the verification email and then type the verification code below.</p>
+		<form method='post' action='/api/auth/email_verification' class='flex flex-col space-y-8'>
+			<Input context='code' label='Email Verification Code' type='text' placeholder='Enter 6 digit code' required maxlength={'6'} oninput='this.value = this.value.toUpperCase()' />
+			<div id='form-error' class='p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg' style='display: none;'></div>
+			<div id='form-success' class='p-4 bg-emerald-600/20 border border-emerald-600 text-emerald-400 rounded-lg' style='display: none;'></div>
+			<div class='flex flex-col md:flex-row gap-4'>
+				<Button title='Verify' variant='primary' />
+				<Button title='Resend Code' id='resend-code-button' variant='secondary' />
+			</div>
+		</form>
+	</div>
 </AuthLayout>
 
 <style>
@@ -38,6 +42,7 @@ const email = user.email;
 
 <script>
 	const errorMessageElement = document.getElementById('form-error');
+	const successMessageElement = document.getElementById('form-success');
 
 	document.forms[0]?.addEventListener('submit', async (e) => {
 		e.preventDefault();
@@ -62,4 +67,87 @@ const email = user.email;
 			errorMessageElement.style.display = 'block';
 		}
 	});
+
+	document.getElementById('resend-code-button')?.addEventListener('click', async (e) => {
+		e.preventDefault();
+
+		const resendButton = e.target as HTMLButtonElement;
+
+		resendButton.disabled = true;
+		resendButton.innerText = 'In process...';
+
+		if (!errorMessageElement || !successMessageElement) return;
+		errorMessageElement.style.display = 'none';
+		errorMessageElement.innerText = '';
+		successMessageElement.style.display = 'none';
+		successMessageElement.innerText = '';
+
+		const response = await fetch('/api/auth/resend_verification_code', {
+			method: 'POST',
+		});
+
+		if (response.ok) {
+			successMessageElement.innerText = 'Verification code has been resent. Check your email inbox or spam folder.';
+			successMessageElement.style.display = 'block';
+
+			const startTime = Date.now();
+    		const duration = 60 * 1000;
+    		localStorage.setItem('countdown-start-time', startTime.toString());
+
+			const updateCountdown = () => {
+				const currentTime = Date.now();
+				const elapsedTime = currentTime - startTime;
+				const remainingTime = duration - elapsedTime;
+				const seconds = Math.floor(remainingTime / 1000);
+
+				if (seconds <= 0) {
+					resendButton.disabled = false;
+					resendButton.innerText = 'Resend Code';
+					clearInterval(countdownInterval);
+				} else {
+					resendButton.innerText = `Please wait ${seconds} seconds...`;
+				}
+			};
+
+			const countdownInterval = setInterval(updateCountdown, 1000);
+		} else {
+			const result = await response.json();
+			errorMessageElement.innerText = result.error || 'Unknown error occurred';
+			errorMessageElement.style.display = 'block';
+		}
+	});
+
+	const startTimeString = localStorage.getItem('countdown-start-time');
+	if (startTimeString) {
+		const startTime = parseInt(startTimeString, 10);
+		const currentTime = Date.now();
+		const elapsedTime = currentTime - startTime;
+		const remainingTime = 60 * 1000 - elapsedTime;
+		const seconds = Math.floor(remainingTime / 1000);
+		
+		if (seconds > 0) {
+			const resendButton = document.getElementById('resend-code-button') as HTMLButtonElement;
+			resendButton.disabled = true;
+			resendButton.innerText = `Please wait ${seconds} seconds...`;
+
+			const updateCountdown = () => {
+				const currentTime = Date.now();
+				const elapsedTime = currentTime - startTime;
+				const remainingTime = 60 * 1000 - elapsedTime;
+				const seconds = Math.floor(remainingTime / 1000);
+
+				if (seconds <= 0) {
+					resendButton.disabled = false;
+					resendButton.innerText = 'Resend Code';
+					clearInterval(countdownInterval);
+				} else {
+					resendButton.innerText = `Please wait ${seconds} seconds...`;
+				}
+			};
+
+			const countdownInterval = setInterval(updateCountdown, 1000);
+		} else {
+			localStorage.removeItem('countdown-start-time');
+		}
+	}
 </script>

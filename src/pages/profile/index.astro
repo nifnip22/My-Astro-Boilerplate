@@ -68,6 +68,8 @@ if (!user.emailVerified) {
 		if (!errorMessageElement || !successMessageElement) return;
 		errorMessageElement.style.display = 'none';
 		errorMessageElement.innerText = '';
+		successMessageElement.style.display = 'none';
+		successMessageElement.innerText = '';
 
 		const formElement = e.target as HTMLFormElement | null;
 
