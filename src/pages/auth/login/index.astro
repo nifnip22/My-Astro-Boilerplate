@@ -12,12 +12,17 @@ if (Astro.locals.user) {
 	<form method='post' action='/api/auth/login' class='flex flex-col space-y-8'>
 		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
 		<Input context='password' label='Password' type='password' placeholder='********' required />
-		<div class='flex flex-col sm:flex-row justify-between gap-y-2'>
-			<a href='/auth/register' class='hover:text-gray-300'>Don't have an account?</a>
-			<a href='/auth/reset-password' type='submit' class='hover:text-gray-300'>Forgot password?</a>
+		<div id='form-error' class='p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg' style='display: none;'></div>
+		<div class='flex flex-col gap-4'>
+			<Button title='Login' variant='primary' />
+			<Button title='Forgot Password?' type='button' variant='ghost' onclick="window.location.href='/auth/reset-password';" />
+			<div class='flex items-center text-md text-gray-100/70 my-3'>
+				<div class='flex-1 border-t border-gray-200/70 mr-3'></div>
+				<span>OR</span>
+				<div class='flex-1 border-t border-gray-200/70 ml-3'></div>
+			</div>
+			<Button title='Create an Account' type='button' variant='secondary' onclick="window.location.href='/auth/register';" />
 		</div>
-		<div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
-		<Button title='Login' variant='secondary' />
 	</form>
 </AuthLayout>
 

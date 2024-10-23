@@ -14,10 +14,17 @@ if (Astro.locals.user) {
 		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
 		<Input context='password' label='Password' type='password' placeholder='********' required maxlength={'20'} />
 		<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required maxlength={'20'} />
-		<a href='/auth/login' class='hover:text-gray-300'>Already have an account?</a>
 		<div id='form-error' class='p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg' style='display: none;'></div>
 		<div id='form-success' class='p-4 bg-emerald-600/30 border border-emerald-600 text-emerald-600 rounded-lg' style='display: none;'></div>
-		<Button title='Register' id='register-button' type='submit' variant='secondary' />
+		<div class='flex flex-col gap-4'>
+			<Button title='Register' id='register-button' type='submit' variant='primary' />
+			<div class='flex items-center text-md text-gray-100/70 my-3'>
+				<div class='flex-1 border-t border-gray-200/70 mr-3'></div>
+				<span>OR</span>
+				<div class='flex-1 border-t border-gray-200/70 ml-3'></div>
+			</div>
+			<Button title='Already Have an Account' type='button' variant='secondary' onclick="window.location.href='/auth/login';" />
+		</div>
 	</form>
 </AuthLayout>
 
