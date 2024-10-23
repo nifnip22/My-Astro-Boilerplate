@@ -26,7 +26,7 @@ if (!user.emailVerified) {
 				<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' value={user.email} required />
 				<div id='form-error-profile' class='p-4 bg-rose-600/20 border border-rose-600 text-rose-400 rounded-lg' style='display: none;'></div>
 				<div id='update-account-success' class='p-4 bg-emerald-600/20 border border-emerald-600 text-emerald-400 rounded-lg' style='display: none;'></div>
-				<Button title='Update Profile' type='submit' variant='primary' width='w-32' />
+				<Button title='Update Profile' id='update-profile-button' type='submit' variant='primary' width='w-32' />
 			</form>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
@@ -38,7 +38,7 @@ if (!user.emailVerified) {
 				<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required maxlength={"20"} />
 				<div id='form-error-password' class='p-4 bg-rose-600/20 border border-rose-600 text-rose-400 rounded-lg' style='display: none;'></div>
 				<div id='update-password-success' class='p-4 bg-emerald-600/20 border border-emerald-600 text-emerald-400 rounded-lg' style='display: none;'></div>
-				<Button title='Save Password' variant='primary' width='w-32' />
+				<Button title='Save Password' id='update-password-button' variant='primary' width='w-32' />
 			</form>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
@@ -61,6 +61,12 @@ if (!user.emailVerified) {
 <script>
 	document.getElementById('profile-form')?.addEventListener('submit', async (e) => {
 		e.preventDefault();
+
+		const updateProfileButton = document.getElementById('update-profile-button') as HTMLButtonElement;
+		if (updateProfileButton) {
+			updateProfileButton.disabled = true;
+			updateProfileButton.innerText = 'In process...';
+		}
 
 		const errorMessageElement = document.getElementById('form-error-profile');
 		const successMessageElement = document.getElementById('update-account-success');
@@ -90,11 +96,20 @@ if (!user.emailVerified) {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
 			errorMessageElement.style.display = 'block';
+
+			updateProfileButton.disabled = false;
+			updateProfileButton.innerText = 'Update Profile';
 		}
 	});
 
 	document.getElementById('password-form')?.addEventListener('submit', async (e) => {
 		e.preventDefault();
+
+		const updatePasswordButton = document.getElementById('update-password-button') as HTMLButtonElement;
+		if (updatePasswordButton) {
+			updatePasswordButton.disabled = true;
+			updatePasswordButton.innerText = 'In process...';
+		}
 
 		const errorMessageElement = document.getElementById('form-error-password');
 		const successMessageElement = document.getElementById('update-password-success');
@@ -122,6 +137,9 @@ if (!user.emailVerified) {
 			const result = await response.json();
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
 			errorMessageElement.style.display = 'block';
+
+			updatePasswordButton.disabled = false;
+			updatePasswordButton.innerText = 'Update Password';
 		}
 	});
 </script>
