@@ -92,7 +92,7 @@ const email = user.email;
 
 			const startTime = Date.now();
     		const duration = 60 * 1000;
-    		localStorage.setItem('countdown-start-time', startTime.toString());
+    		localStorage.setItem('email-verification-timer', startTime.toString());
 
 			const updateCountdown = () => {
 				const currentTime = Date.now();
@@ -117,7 +117,7 @@ const email = user.email;
 		}
 	});
 
-	const startTimeString = localStorage.getItem('countdown-start-time');
+	const startTimeString = localStorage.getItem('email-verification-timer');
 	if (startTimeString) {
 		const startTime = parseInt(startTimeString, 10);
 		const currentTime = Date.now();
@@ -147,7 +147,7 @@ const email = user.email;
 
 			const countdownInterval = setInterval(updateCountdown, 1000);
 		} else {
-			localStorage.removeItem('countdown-start-time');
+			localStorage.removeItem('email-verification-timer');
 		}
 	}
 </script>

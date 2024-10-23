@@ -16,7 +16,7 @@ if (Astro.locals.user) {
             <div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
             <div id='form-success' class="p-4 bg-emerald-600/30 border border-emerald-600 text-emerald-600 rounded-lg" style="display: none;"></div>
             <div class="flex flex-col md:flex-row gap-4">
-                <Button title='Send Password Reset Link' variant='primary' />
+                <Button title='Send Password Reset Link' id='reset-password-button' variant='primary' />
                 <Button title='Cancel' type='button' variant='secondary' onclick="window.location.href='/auth/login';" />
             </div>
         </form>
@@ -39,6 +39,13 @@ if (Astro.locals.user) {
 	document.forms[0]?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 
+		const resetPasswordButton = document.getElementById('reset-password-button') as HTMLButtonElement;
+
+		if (resetPasswordButton) {
+			resetPasswordButton.disabled = true;
+			resetPasswordButton.innerText = 'In process...';
+		}
+
 		if (!errorMessageElement || !successMessageElement) return;
 		errorMessageElement.style.display = 'none';
 		errorMessageElement.innerText = '';
@@ -58,9 +65,64 @@ if (Astro.locals.user) {
 		if (response.ok) {
 			successMessageElement.innerText = result.success || 'Email sent successfully. Please check your email';
 			successMessageElement.style.display = 'block';
+
+			const startTime = Date.now();
+			const duration = 60 * 1000;
+			localStorage.setItem('reset-password-timer', startTime.toString());
+
+			const updateCountdown = () => {
+				const currentTime = Date.now();
+				const elapsedTime = currentTime - startTime;
+				const remainingTime = duration - elapsedTime;
+				const seconds = Math.floor(remainingTime / 1000);
+
+				if (seconds <= 0) {
+					resetPasswordButton.disabled = false;
+					resetPasswordButton.innerText = 'Reset Password';
+					clearInterval(countdownInterval);
+				} else {
+					resetPasswordButton.innerText = `Please wait ${seconds} seconds...`;
+				}
+			};
+
+			const countdownInterval = setInterval(updateCountdown, 1000);
 		} else {
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
 			errorMessageElement.style.display = 'block';
 		}
 	});
+
+	const startTimeString = localStorage.getItem('reset-password-timer');
+	if (startTimeString) {
+		const startTime = parseInt(startTimeString, 10);
+		const currentTime = Date.now();
+		const elapsedTime = currentTime - startTime;
+		const remainingTime = 60 * 1000 - elapsedTime;
+		const seconds = Math.floor(remainingTime / 1000);
+		
+		if (seconds > 0) {
+			const resetPasswordButton = document.getElementById('reset-password-button') as HTMLButtonElement;
+			resetPasswordButton.disabled = true;
+			resetPasswordButton.innerText = `Please wait ${seconds} seconds...`;
+
+			const updateCountdown = () => {
+				const currentTime = Date.now();
+				const elapsedTime = currentTime - startTime;	
+				const remainingTime = 60 * 1000 - elapsedTime;
+				const seconds = Math.floor(remainingTime / 1000);
+
+				if (seconds <= 0) {
+					resetPasswordButton.disabled = false;
+					resetPasswordButton.innerText = 'Reset Password';
+					clearInterval(countdownInterval);
+				} else {
+					resetPasswordButton.innerText = `Please wait ${seconds} seconds...`;
+				}
+			};
+
+			const countdownInterval = setInterval(updateCountdown, 1000);
+		} else {
+			localStorage.removeItem('reset-password-timer');
+		}
+	}
 </script>
