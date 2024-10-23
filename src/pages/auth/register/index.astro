@@ -10,14 +10,14 @@ if (Astro.locals.user) {
 
 <AuthLayout title='Register'>
 	<form method='post' action='/api/auth/register' class='flex flex-col space-y-8'>
-		<Input context='username' label='Username' type='text' placeholder='John Doe' required maxlength={"30"}/>
+		<Input context='username' label='Username' type='text' placeholder='John Doe' required maxlength={'30'} />
 		<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' required />
-		<Input context='password' label='Password' type='password' placeholder='********' required maxlength={"20"} />
-		<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required maxlength={"20"} />
+		<Input context='password' label='Password' type='password' placeholder='********' required maxlength={'20'} />
+		<Input context='confirm_password' label='Confirm Password' type='password' placeholder='********' required maxlength={'20'} />
 		<a href='/auth/login' class='hover:text-gray-300'>Already have an account?</a>
-		<div id='form-error' class="p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg" style="display: none;"></div>
-		<div id='form-success' class="p-4 bg-emerald-600/30 border border-emerald-600 text-emerald-600 rounded-lg" style="display: none;"></div>
-		<Button title='Register' type='submit' variant='secondary' />
+		<div id='form-error' class='p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg' style='display: none;'></div>
+		<div id='form-success' class='p-4 bg-emerald-600/30 border border-emerald-600 text-emerald-600 rounded-lg' style='display: none;'></div>
+		<Button title='Register' id='register-button' type='submit' variant='secondary' />
 	</form>
 </AuthLayout>
 
@@ -36,6 +36,13 @@ if (Astro.locals.user) {
 
 	document.forms[0]?.addEventListener('submit', async (e) => {
 		e.preventDefault();
+
+		const registerButton = document.getElementById('register-button') as HTMLButtonElement;
+
+		if (registerButton) {
+			registerButton.disabled = true;
+			registerButton.innerText = 'In process...';
+		}
 
 		if (!errorMessageElement || !successMessageElement) return;
 
@@ -64,6 +71,9 @@ if (Astro.locals.user) {
 		} else {
 			errorMessageElement.innerText = result.error || 'Unknown error occurred';
 			errorMessageElement.style.display = 'block';
+
+			registerButton.disabled = false;
+			registerButton.innerText = 'Register';
 		}
 	});
 </script>
