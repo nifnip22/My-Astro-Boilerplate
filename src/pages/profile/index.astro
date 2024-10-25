@@ -16,11 +16,11 @@ if (!user.emailVerified) {
 <MainLayout title='Profile'>
 	<div class='flex flex-col gap-y-12 mt-12 mb-12'>
 		<div class='w-full'>
-			<h1 class='text-4xl font-bold mb-6'>Profile</h1>
+			<h1 class='text-3xl md:text-4xl font-bold mb-6'>Profile</h1>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
-			<h1 class='text-2xl font-semibold mb-2'>Profile Information</h1>
-			<p class='text-lg mb-8'>Update your account's profile information and email address.</p>
+			<h1 class='text-xl md:text-2xl font-semibold mb-2'>Profile Information</h1>
+			<p class='text-md md:text-lg mb-8'>Update your account's profile information and email address.</p>
 			<form method='post' action='/api/auth/update_account' class='flex flex-col gap-y-8' id='profile-form'>
 				<Input context='username' label='Username' type='text' placeholder='John Doe' value={user.username} required maxlength={"30"} />
 				<Input context='email' label='Email' type='email' placeholder='johndoe@example.com' value={user.email} required />
@@ -30,8 +30,8 @@ if (!user.emailVerified) {
 			</form>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
-			<h1 class='text-2xl font-semibold mb-2'>Update Password</h1>
-			<p class='text-lg mb-8'>Ensure your account is using a long, random password to stay secure.</p>
+			<h1 class='text-xl md:text-2xl font-semibold mb-2'>Update Password</h1>
+			<p class='text-md md:text-lg mb-8'>Ensure your account is using a long, random password to stay secure.</p>
 			<form method='post' action='/api/auth/update_password' class='flex flex-col gap-y-8' id='password-form'>
 				<Input context='current_password' label='Current Password' type='password' placeholder='********' required maxlength={"20"} />
 				<Input context='new_password' label='New Password' type='password' placeholder='********' required maxlength={"20"} />
@@ -42,8 +42,8 @@ if (!user.emailVerified) {
 			</form>
 		</div>
 		<div class='w-full p-4 rounded-xl bg-zinc-800'>
-			<h1 class='text-2xl font-semibold mb-2'>Delete Account</h1>
-			<p class='text-lg mb-8'>Once you delete your account, all of your data will be permanently removed. This action cannot be undone. Please be certain.</p>
+			<h1 class='text-xl md:text-2xl font-semibold mb-2'>Delete Account</h1>
+			<p class='text-md md:text-lg mb-8'>Once you delete your account, all of your data will be permanently removed. This action cannot be undone. Please be certain.</p>
 			<Button title='Delete Account' variant='danger' width='w-32' onclick="window.location.href='/profile/delete-confirmation';" />
 		</div>
 	</div>

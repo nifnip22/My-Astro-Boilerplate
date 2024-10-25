@@ -12,12 +12,12 @@ const currentPath = pathname.slice();
 				<img src='/img/logo/astro-icon-light-gradient.svg' alt='' class='w-8 h-8' />
 			</a>
             <div class="hidden md:flex items-center gap-x-8">
-                <a href='/dashboard' class={currentPath === '/dashboard' ? 'text-lg text-gray-100 font-bold' : 'text-lg text-gray-100/50 hover:text-gray-100/70'}>Dashboard</a>
-                <a href='/profile' class={currentPath === '/profile' ? 'text-lg text-gray-100 font-bold' : 'text-lg text-gray-100/50 hover:text-gray-100/70'}>Profile</a>
+                <a href='/dashboard' class={currentPath === '/dashboard' ? 'text-md lg:text-lg text-gray-100 font-bold' : 'text-md lg:text-lg text-gray-100/50 hover:text-gray-100/70'}>Dashboard</a>
+                <a href='/profile' class={currentPath === '/profile' ? 'text-md lg:text-lg text-gray-100 font-bold' : 'text-md lg:text-lg text-gray-100/50 hover:text-gray-100/70'}>Profile</a>
             </div>
 		</div>
 		<div>
-			<form method='post' action='/api/auth/logout' class='hidden md:block text-gray-100/50 hover:text-red-600'>
+			<form method='post' action='/api/auth/logout' class='hidden md:block text-md lg:text-lg text-gray-100/50 hover:text-red-600'>
 				<button>Log out</button>
 			</form>
 			<button id='mobile-nav-button' class='block md:hidden p-2 rounded-lg hover:bg-zinc-700'>
@@ -30,15 +30,15 @@ const currentPath = pathname.slice();
 	<div id="mobile-nav" class='py-4 bg-zinc-800 flex md:hidden flex-col items-center border-t border-gray-100/50' style='display: none;'>
 		<a
 			href='/dashboard'
-			class={currentPath === '/dashboard' ? 'p-2 w-full bg-purple-500/30 border-l-8 border-purple-500 text-lg text-gray-100 font-bold' : 'p-2 w-full border-l-8 border-zinc-700 text-lg text-gray-100/50 hover:text-gray-100/70'}>
+			class={currentPath === '/dashboard' ? 'p-2 w-full bg-purple-500/30 border-l-8 border-purple-500 text-md text-gray-100 font-bold' : 'p-2 w-full border-l-8 border-zinc-700 text-md text-gray-100/50 hover:text-gray-100/70'}>
 			Dashboard
 		</a>
 		<a
 			href='/profile'
-			class={currentPath === '/profile' ? 'p-2 w-full bg-purple-500/30 border-l-8 border-purple-500 text-lg text-gray-100 font-bold' : 'p-2 w-full border-l-8 border-zinc-700 text-lg text-gray-100/50 hover:text-gray-100/70'}>
+			class={currentPath === '/profile' ? 'p-2 w-full bg-purple-500/30 border-l-8 border-purple-500 text-md text-gray-100 font-bold' : 'p-2 w-full border-l-8 border-zinc-700 text-md text-gray-100/50 hover:text-gray-100/70'}>
 			Profile
 		</a>
-		<form method='post' action='/api/auth/logout' class='mt-12 p-2 w-full hover:bg-red-600/30 border-l-8 border-red-600/50 hover:border-red-600 text-lg text-red-600 hover:text-gray-100'>
+		<form method='post' action='/api/auth/logout' class='mt-12 p-2 w-full hover:bg-red-600/30 border-l-8 border-red-600/50 hover:border-red-600 text-md text-red-600 hover:text-gray-100'>
 			<button>Log out</button>
 		</form>
 	</div>
