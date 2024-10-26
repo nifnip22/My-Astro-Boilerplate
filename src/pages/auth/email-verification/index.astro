@@ -18,14 +18,24 @@ const email = user.email;
 
 <AuthLayout title='Email Verification'>
 	<div class='flex flex-col space-y-8'>
-		<p class='text-lg text-center'>The verification code has been sent to <b>'{email}'</b>. Please check your email inbox or spam folder for the verification email. If you did not receive the email, please click on the resend code button.</p>
+		<p class='text-lg text-center'>
+			The verification code has been sent to <b>'{email}'</b>. Please check your email inbox or spam folder for the verification email. If you did not receive the email, please click on the resend code button.
+		</p>
 		<form method='post' action='/api/auth/email_verification' class='flex flex-col space-y-8'>
 			<Input context='code' label='Email Verification Code' type='text' placeholder='Enter 6 digit code' required maxlength={'6'} oninput='this.value = this.value.toUpperCase()' />
 			<div id='form-error' class='p-4 bg-rose-600/30 border border-rose-600 text-rose-600 rounded-lg' style='display: none;'></div>
 			<div id='form-success' class='p-4 bg-emerald-600/20 border border-emerald-600 text-emerald-400 rounded-lg' style='display: none;'></div>
-			<div class='flex flex-col md:flex-row gap-4'>
-				<Button title='Verify' variant='primary' />
-				<Button title='Resend Code' id='resend-code-button' variant='secondary' />
+			<div class='flex flex-col gap-4'>
+				<div class='flex flex-col md:flex-row gap-4'>
+					<Button title='Verify' variant='primary' />
+					<Button title='Resend Code' id='resend-code-button' variant='secondary' />
+				</div>
+				<div class='flex items-center text-md text-gray-100/70 my-3'>
+					<div class='flex-1 border-t border-gray-200/70 mr-3'></div>
+					<span>OR</span>
+					<div class='flex-1 border-t border-gray-200/70 ml-3'></div>
+				</div>
+				<Button title='Log Out to Switch Account' id='logout-button' variant='danger' />
 			</div>
 		</form>
 	</div>
@@ -91,8 +101,8 @@ const email = user.email;
 			successMessageElement.style.display = 'block';
 
 			const startTime = Date.now();
-    		const duration = 60 * 1000;
-    		localStorage.setItem('email-verification-timer', startTime.toString());
+			const duration = 60 * 1000;
+			localStorage.setItem('email-verification-timer', startTime.toString());
 
 			const updateCountdown = () => {
 				const currentTime = Date.now();
@@ -124,7 +134,7 @@ const email = user.email;
 		const elapsedTime = currentTime - startTime;
 		const remainingTime = 60 * 1000 - elapsedTime;
 		const seconds = Math.floor(remainingTime / 1000);
-		
+
 		if (seconds > 0) {
 			const resendButton = document.getElementById('resend-code-button') as HTMLButtonElement;
 			resendButton.disabled = true;
@@ -150,4 +160,24 @@ const email = user.email;
 			localStorage.removeItem('email-verification-timer');
 		}
 	}
+
+	document.getElementById('logout-button')?.addEventListener('click', async (e) => {
+		e.preventDefault();
+
+		if (!errorMessageElement) return;
+		errorMessageElement.style.display = 'none';
+		errorMessageElement.innerText = '';
+
+		const response = await fetch('/api/auth/logout', {
+			method: 'POST',
+		});
+
+		if (response.ok) {
+			window.location.href = '/auth/login';
+		} else {
+			const result = await response.json();
+			errorMessageElement.innerText = result.error || 'Unknown error occurred';
+			errorMessageElement.style.display = 'block';
+		}
+	});
 </script>
