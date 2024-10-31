@@ -1,11 +1,11 @@
 ---
 import '../styles/globals.css';
-import { Icon } from 'astro-icon/components'
+import { Icon } from 'astro-icon/components';
 
 const year = new Date().getFullYear();
 ---
 
-<html lang='en' class="w-full min-h-screen">
+<html lang='en' class='w-full min-h-screen'>
 	<head>
 		<meta charset='utf-8' />
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
@@ -16,73 +16,70 @@ const year = new Date().getFullYear();
 		<link href='https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap' rel='stylesheet' />
 		<title>Astro</title>
 		<style>
-			h1 {
+			body {
 				font-family: 'Inter', sans-serif;
-				font-optical-sizing: auto;
-				font-weight: <weight>;
-				font-style: normal;
-			}
-			p,
-			button {
-				font-family: 'Source Code Pro', monospace;
 				font-optical-sizing: auto;
 				font-weight: <weight>;
 				font-style: normal;
 			}
 		</style>
 	</head>
-	<body class='bg-slate-900'>
+	<body class='bg-zinc-900 md:overflow-hidden relative'>
 		<div class='flex flex-col justify-center items-center h-screen space-y-12 md:px-12 lg:px-20 xl:px-40 2xl:px-80 pt-[28rem] sm:pt-[32rem] md:pt-0'>
-			<img src='/img/logo/astro-logo-light-gradient.svg' alt='' class="pt-[32rem] sm:pt-52 lg:pt-0"/>
+			<div id="gradient-bg" class="absolute bg-[#8735bd]/40 rounded-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[80vw] h-[80vh] blur-[150px] z-[-1]"></div>
+			<img src='/img/logo/astro-logo-light-gradient.svg' alt='' class='pt-[24rem] sm:pt-40 lg:pt-0' />
 			<div class='grid md:grid-cols-2 gap-4 text-gray-100 antialiased'>
-				<a href="https://docs.astro.build/en/getting-started/" target="_blank">
-					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 md:rounded-xl'>
+				<a href='https://docs.astro.build/en/getting-started/' target='_blank'>
+					<div class='p-4 bg-gray-400/10 border border-gray-100/20 group hover:border-gray-100/50 hover:bg-gray-400/20 duration-300 md:rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
 							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
-								<Icon name={'general/book'} class={'text-purple-700 w-10 h-10'} />
+								<Icon name={'general/book'} class={'text-gray-500 group-hover:text-purple-700 duration-300 w-10 h-10'} />
 							</div>
 							<h1 class='text-3xl md:text-4xl font-bold'>Documentation</h1>
 							<p class='text-md md:text-lg leading-7 font-medium'>The documentation for Astro.js provides detailed guides and information to help you get started with building fast, modern websites.</p>
 						</div>
 					</div>
 				</a>
-				<a href="https://astro.build/themes/" target="_blank">
-					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 md:rounded-xl'>
+				<a href='https://astro.build/themes/' target='_blank'>
+					<div class='p-4 bg-gray-400/10 border border-gray-100/20 group hover:border-gray-100/50 hover:bg-gray-400/20 duration-300 md:rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
 							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
-								<Icon name={'general/pallete'} class={'text-purple-700 w-10 h-10'} />
+								<Icon name={'general/pallete'} class={'text-gray-500 group-hover:text-purple-700 w-10 h-10'} />
 							</div>
 							<h1 class='text-3xl md:text-4xl font-bold'>Theme</h1>
 							<p class='text-md md:text-lg leading-7 font-medium'>Jumpstart your next Astro project with theme to quickly create a consistent and customized appearance for your project without starting from scratch.</p>
 						</div>
 					</div>
 				</a>
-				<a href="https://astro.build/blog/" target="_blank">
-					<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 md:rounded-xl'>
+				<a href='https://astro.build/blog/' target='_blank'>
+					<div class='p-4 bg-gray-400/10 border border-gray-100/20 group hover:border-gray-100/50 hover:bg-gray-400/20 duration-300 md:rounded-xl'>
 						<div class='flex flex-col gap-y-6'>
 							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
-								<Icon name={'general/blog'} class={'text-purple-700 w-10 h-10'} />
+								<Icon name={'general/blog'} class={'text-gray-500 group-hover:text-purple-700 w-10 h-10'} />
 							</div>
 							<h1 class='text-3xl md:text-4xl font-bold'>Blog</h1>
 							<p class='text-md md:text-lg leading-7 font-medium'>Get all the latest news from the Astroverse to stay up-to-date with the latest trends and technologies from Astro.</p>
 						</div>
 					</div>
 				</a>
-				<div class='p-4 bg-gray-400/30 hover:bg-gray-400/50 duration-300 md:rounded-xl'>
-					<div class='flex flex-col gap-y-6'>
-						<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
-							<Icon name={'general/dashboard'} class={'text-purple-700 w-10 h-10'} />
+				<div class='p-4 bg-gray-400/10 border border-gray-100/20 group hover:border-gray-100/50 hover:bg-gray-400/20 duration-300 md:rounded-xl'>
+					<a href='/auth/login'>
+						<div class='flex flex-col gap-y-6'>
+							<div class='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center'>
+								<Icon name={'general/dashboard'} class={'text-gray-500 group-hover:text-purple-700 w-10 h-10'} />
+							</div>
+							<h1 class='text-3xl md:text-4xl font-bold'>Dashboard</h1>
+							<p class='text-md md:text-lg leading-7 font-medium'>Access your dashboard to manage and explore various features. To get started, first you need to be authenticated.</p>
 						</div>
-						<h1 class='text-3xl md:text-4xl font-bold'>Dashboard</h1>
-						<p class='text-md md:text-lg leading-7 font-medium'>
-							Access your dashboard to manage and explore various features. To get started, first you need to <span class='underline underline-offset-2 hover:text-gray-300 duration-300 font-bold'><a href='/auth/register'>register</a></span>
-							or <span class='underline underline-offset-2 hover:text-gray-300 duration-300 font-bold'><a href='/auth/login'>login</a></span>
-						</p>
-					</div>
+					</a>
 				</div>
 			</div>
-			<div class="text-gray-100/50 text-center pb-16 sm:pb-10 lg:pb-0">
-				&copy; {year}, build with Astro and ❤️ by nifnip22. Check the source code on <a href="https://github.com/nifnip22/My-Astro-Boilerplate" target="_blank" class="underline underline-offset-2 hover:text-gray-300 duration-300 font-bold">GitHub</a>.
+			<div class='text-gray-100/50 text-center pb-16 sm:pb-10 lg:pb-0'>
+				&copy; {year}, build with Astro and ❤️ by nifnip22. Check the source code on <a
+					href='https://github.com/nifnip22/My-Astro-Boilerplate'
+					target='_blank'
+					class='underline underline-offset-2 hover:text-gray-300 duration-300 font-bold'>GitHub</a
+				>.
 			</div>
 		</div>
 	</body>
